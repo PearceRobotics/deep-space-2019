@@ -1,4 +1,4 @@
-# deepspace2019
+# deep-space-2019
 Source code for the 2019 FRC season - Deep Space
 
 [![Build Status](https://travis-ci.org/Pearcerobotics/deep-space-2019.svg?branch=master)](https://travis-ci.org/Pearcerobotics/deep-space-2019)
