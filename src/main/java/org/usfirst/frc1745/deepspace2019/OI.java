@@ -9,9 +9,9 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc1745.deep-space-2019;
+package org.usfirst.frc1745.deepspace2019;
 
-import org.usfirst.frc1745.deep-space-2019.commands.*;
+import org.usfirst.frc1745.deepspace2019.commands.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 

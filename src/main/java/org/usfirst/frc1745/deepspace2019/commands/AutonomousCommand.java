@@ -9,9 +9,9 @@
 // it from being updated in the future.
 
 
-package org.usfirst.frc1745.deep-space-2019.commands;
+package org.usfirst.frc1745.deepspace2019.commands;
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc1745.deep-space-2019.Robot;
+import org.usfirst.frc1745.deepspace2019.Robot;
 
 /**
  *
