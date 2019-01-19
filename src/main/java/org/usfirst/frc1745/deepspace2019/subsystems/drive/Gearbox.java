@@ -10,7 +10,6 @@ package org.usfirst.frc1745.deepspace2019.subsystems.drive;
 import com.revrobotics.CANError;
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -42,6 +41,12 @@ public class Gearbox extends Subsystem {
     if(backSlave != CANError.kOK || middleSlave != CANError.kOK) {
       throw new IllegalStateException("Unsucessful in setting leader. BackSlave error status: " 
                                           + backSlave.name() + " MiddleSlave error status: " + middleSlave.name());
+    }
+  }
+
+  public void setSpeed(double rate) {
+    if(rate < 1.0 && rate > -1.0) {
+      this.frontController.set(rate);
     }
   }
 
