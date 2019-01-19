@@ -3,8 +3,17 @@ Source code for the 2019 FRC season - Deep Space
 
 [![Build Status](https://travis-ci.org/PearceRobotics/deep-space-2019.svg?branch=master)](https://travis-ci.org/PearceRobotics/deep-space-2019)
 
+### Getting Started
+- Install [Java JDK 11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html) and ensure `java -version` shows you are using JDK 11
+- Install [VSCode](https://code.visualstudio.com/)
+  - Within VSCode install the follow extensions:
+    - [WPILib - wpilibsuite.vscode-wpilib](https://marketplace.visualstudio.com/items?itemName=wpilibsuite.vscode-wpilib)
+    - [Java Extension Pack - vscjava.vscode-java-pack](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack) 
+
 ### Build
 _Note: *nix users may have to `chmod +x gradlew` to give the executable the right permissions
 - ```./gradlew build``` will build your Robot Code
 - ```./gradlew deploy``` will build and deploy your code.
 - ```./gradlew riolog``` will display the RoboRIO console output on your computer (run with `-Pfakeds` if you don't have a driverstation connected).
+
+
