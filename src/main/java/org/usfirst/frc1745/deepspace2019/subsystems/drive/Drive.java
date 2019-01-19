@@ -45,8 +45,11 @@ public class Drive extends Subsystem {
                                     new CANSparkMax(RIGHT_FRONT_CAN_ID, DRIVE_MOTOR_TYPE));
   }
 
-  public void setSpeed(double speed) {
+  public void setLeftSpeed(double speed) {
     leftGearbox.setSpeed(speed);
+  }
+
+  public void setRightSpeed(double speed) {
     rightGearbox.setSpeed(speed);
   }
 
