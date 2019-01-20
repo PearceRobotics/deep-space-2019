@@ -7,9 +7,6 @@
 
 package org.usfirst.frc1745.deepspace2019.subsystems.drive;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 

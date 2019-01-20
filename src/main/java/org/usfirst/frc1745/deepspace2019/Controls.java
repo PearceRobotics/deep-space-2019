@@ -8,21 +8,22 @@
 package org.usfirst.frc1745.deepspace2019;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 /**
  * Add your docs here.
  */
 public class Controls {
-    private Joystick leftJoystick;
-    private Joystick rightJoystick;
+    private Joystick joystick;
+    private final int LEFT_Y = 1;
+    private final int RIGHT_Y = 5;
 
-    public Controls(Joystick leftJoystick, Joystick rightJoystick) {
-        this.leftJoystick = leftJoystick;
-        this.rightJoystick = rightJoystick;
+    public Controls(Joystick joystick) {
+        this.joystick = joystick;
     }
 
-    public double getJoystickY(Joystick joystick, double deadzone) {
-        double y = joystick.getY();
+    public double getLeftY(double deadzone) {
+        double y = joystick.getRawAxis(LEFT_Y);
         if(Math.abs(y) < deadzone) {
             return 0.0;
         } else if(y > 0) {
@@ -32,11 +33,14 @@ public class Controls {
         }
     }
 
-    public Joystick getLeftJoystick() {
-        return this.leftJoystick;
-    }
-
-    public Joystick getRightJoystick() {
-        return this.rightJoystick;
+    public double getRightY(double deadzone) {
+        double y = joystick.getRawAxis(RIGHT_Y);
+        if(Math.abs(y) < deadzone) {
+            return 0.0;
+        } else if(y > 0) {
+                return y - deadzone;
+        } else {
+            return y + deadzone;
+        }
     }
 }
