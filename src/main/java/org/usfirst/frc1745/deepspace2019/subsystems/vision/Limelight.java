@@ -8,11 +8,8 @@
 package org.usfirst.frc1745.deepspace2019.subsystems.vision;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import org.usfirst.frc1745.deepspace2019.subsystems.vision.TankDriveCommands;
 
 /**
  * Add your docs here.
