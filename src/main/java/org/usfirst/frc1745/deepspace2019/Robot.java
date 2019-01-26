@@ -130,5 +130,17 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Limelight Right Command: ", commands.rightCommand);
         SmartDashboard.putString("DB/String 0", "" + commands.leftCommand);
         SmartDashboard.putString("DB/String 1", "" + commands.rightCommand);*/
+
+        double[] calculatedDeltas = limelight.calcSpeed();
+        SmartDashboard.putNumber("Left Delta: ", calculatedDeltas[0]);
+        SmartDashboard.putNumber("Right Delta ", calculatedDeltas[1]);
+
+        SmartDashboard.putNumber("Aim Constant: ", limelight.getKpAim());
+        limelight.setKpAim(SmartDashboard.getNumber("Aim Constant: ", limelight.getKpAim()));
+        SmartDashboard.putNumber("Distance Constant: ", limelight.getKpDistance());
+        limelight.setKpDistance(SmartDashboard.getNumber("Distance Constant", limelight.getKpDistance()));
+        SmartDashboard.putNumber("Minimum Aim Constant: ", limelight.getMinAimCommand());
+        limelight.setMinAimCommand(SmartDashboard.getNumber("Minimum Aim Constant: ", limelight.getMinAimCommand()));
+
     }
 }

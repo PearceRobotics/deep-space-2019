@@ -63,6 +63,23 @@ public class Limelight extends Subsystem {
   public double setKpAim(double KpAim) {
     this.KpAim = KpAim;
     return KpAim;
-    
+  }
+
+  public double getKpDistance() {
+    return KpDistance;
+  }
+
+  public double setKpDistance(double KpDistance){
+    this.KpDistance = KpDistance;
+    return KpDistance;
+  }
+
+  public double getMinAimCommand() {
+    return min_aim_command;
+  }
+
+  public double setMinAimCommand(double min_aim_command){
+    this.min_aim_command = min_aim_command;
+    return min_aim_command;
   }
 }
