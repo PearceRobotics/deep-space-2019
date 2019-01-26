@@ -9,6 +9,7 @@ package org.usfirst.frc1745.deepspace2019;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * Add your docs here.
@@ -45,7 +46,7 @@ public class Controls {
         }
     }
 
-    public boolean getRightTopBumper() {
-        return this.joystick.getRawButton(RIGHT_TOP_BUMPER_ID);
+    public JoystickButton getRightTopBumper() {
+        return new JoystickButton(joystick, RIGHT_TOP_BUMPER_ID);
     }
 }
