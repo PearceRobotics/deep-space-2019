@@ -121,12 +121,6 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
         drive.setLeftSpeed((-controls.getLeftY(DEADZONE)));
         drive.setRightSpeed((controls.getRightY(DEADZONE)));
-        /*commands = limelight.getTankDriveCommands(commands);
-
-        SmartDashboard.putNumber("Limelight Left Command: ", commands.leftCommand);
-        SmartDashboard.putNumber("Limelight Right Command: ", commands.rightCommand);
-        SmartDashboard.putString("DB/String 0", "" + commands.leftCommand);
-        SmartDashboard.putString("DB/String 1", "" + commands.rightCommand);*/
 
         //Adds the right and left delta values to SmartDashboard
         NetworkTable limelightNetworkTable = limelight.getLimelightNetworkTable();
