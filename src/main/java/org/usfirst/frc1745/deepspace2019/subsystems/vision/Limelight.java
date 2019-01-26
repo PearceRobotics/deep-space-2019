@@ -24,16 +24,19 @@ public class Limelight extends Subsystem {
   @Override
   public void initDefaultCommand() {
 
-    //do nothing
+    // do nothing
   }
 
   private double KpAim = -0.1f;
   private double KpDistance = -0.1f;
   private double min_aim_command = 0.05f;
 
-  public double[] calcSpeed() {
+  public NetworkTable getLimelightNetworkTable() {
+    return NetworkTableInstance.getDefault().getTable("limelight"); 
+  }
 
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  public double[] calcSpeed(NetworkTable table) {
+
     double tx = table.getEntry("tx").getDouble(0.0);
     double ty = table.getEntry("ty").getDouble(0.0);
 
@@ -52,8 +55,8 @@ public class Limelight extends Subsystem {
     double leftDelta = steeringAdjust + distanceAdjust;
     double rightDelta = -(steeringAdjust + distanceAdjust);
 
-    return new double[]{leftDelta, rightDelta};
-  
+    return new double[] { leftDelta, rightDelta };
+
   }
 
   public double getKpAim() {
@@ -69,7 +72,7 @@ public class Limelight extends Subsystem {
     return KpDistance;
   }
 
-  public double setKpDistance(double KpDistance){
+  public double setKpDistance(double KpDistance) {
     this.KpDistance = KpDistance;
     return KpDistance;
   }
@@ -78,7 +81,7 @@ public class Limelight extends Subsystem {
     return min_aim_command;
   }
 
-  public double setMinAimCommand(double min_aim_command){
+  public double setMinAimCommand(double min_aim_command) {
     this.min_aim_command = min_aim_command;
     return min_aim_command;
   }

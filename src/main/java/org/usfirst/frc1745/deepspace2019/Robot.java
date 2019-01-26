@@ -10,6 +10,7 @@
 
 package org.usfirst.frc1745.deepspace2019;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -130,8 +131,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Limelight Right Command: ", commands.rightCommand);
         SmartDashboard.putString("DB/String 0", "" + commands.leftCommand);
         SmartDashboard.putString("DB/String 1", "" + commands.rightCommand);*/
-
-        double[] calculatedDeltas = limelight.calcSpeed();
+        NetworkTable limelightNetworkTable = limelight.getLimelightNetworkTable();
+        double[] calculatedDeltas = limelight.calcSpeed(limelightNetworkTable);
         SmartDashboard.putNumber("Left Delta: ", calculatedDeltas[0]);
         SmartDashboard.putNumber("Right Delta ", calculatedDeltas[1]);
 
