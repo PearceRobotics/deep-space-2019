@@ -131,11 +131,14 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Limelight Right Command: ", commands.rightCommand);
         SmartDashboard.putString("DB/String 0", "" + commands.leftCommand);
         SmartDashboard.putString("DB/String 1", "" + commands.rightCommand);*/
+
+        //Adds the right and left delta values to SmartDashboard
         NetworkTable limelightNetworkTable = limelight.getLimelightNetworkTable();
         double[] calculatedDeltas = limelight.calcSpeed(limelightNetworkTable);
         SmartDashboard.putNumber("Left Delta: ", calculatedDeltas[0]);
         SmartDashboard.putNumber("Right Delta ", calculatedDeltas[1]);
-
+        
+        //Send and be able to edit constants
         SmartDashboard.putNumber("Aim Constant: ", limelight.getKpAim());
         limelight.setKpAim(SmartDashboard.getNumber("Aim Constant: ", limelight.getKpAim()));
         SmartDashboard.putNumber("Distance Constant: ", limelight.getKpDistance());
