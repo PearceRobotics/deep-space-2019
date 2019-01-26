@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc1745.deepspace2019.commands.*;
 import org.usfirst.frc1745.deepspace2019.subsystems.drive.Drive;
+import org.usfirst.frc1745.deepspace2019.subsystems.manipulator.Manipulator;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
 
     private Controls controls;
     private Drive drive;
+    private Manipulator manipulator; 
 
     private final int JOYSTICK_PORT = 0;
 
@@ -115,5 +117,8 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run(); 
         drive.setLeftSpeed(-controls.getLeftY(DEADZONE));
         drive.setRightSpeed(controls.getRightY(DEADZONE));
+        if(controls.getRightTopBumper()) {
+            manipulator.actuate();
+        }
     }
 }

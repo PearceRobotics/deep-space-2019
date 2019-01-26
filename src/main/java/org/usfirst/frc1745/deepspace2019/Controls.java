@@ -17,6 +17,7 @@ public class Controls {
     private Joystick joystick;
     private final int LEFT_Y = 1;
     private final int RIGHT_Y = 5;
+    private final int RIGHT_TOP_BUMPER_ID = 6;
 
     public Controls(Joystick joystick) {
         this.joystick = joystick;
@@ -42,5 +43,9 @@ public class Controls {
         } else {
             return y + deadzone;
         }
+    }
+
+    public boolean getRightTopBumper() {
+        return this.joystick.getRawButton(RIGHT_TOP_BUMPER_ID);
     }
 }
