@@ -22,7 +22,7 @@ public class DoubleSolenoidActuator extends Subsystem {
 
   public DoubleSolenoidActuator(DoubleSolenoid doubleSolenoid) {
     this.doubleSolenoid = doubleSolenoid;
-    state = DoubleSolenoid.Value.kOff;
+    this.state = DoubleSolenoid.Value.kOff;
   }
 
   public void toggle() {
