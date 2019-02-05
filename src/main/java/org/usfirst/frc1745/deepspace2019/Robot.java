@@ -9,8 +9,10 @@
 // it from being updated in the future.
 
 package org.usfirst.frc1745.deepspace2019;
-
+import edu.wpi.first.networktables.*;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -80,7 +82,7 @@ public class Robot extends TimedRobot {
     public void disabledInit() {
 
     }
-
+//Dear Kusha, S.O.S
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
@@ -135,6 +137,19 @@ public class Robot extends TimedRobot {
         limelight.setKpDistance(SmartDashboard.getNumber("Distance Constant", limelight.getKpDistance()));
         SmartDashboard.putNumber("Minimum Aim Constant: ", limelight.getMinAimCommand());
         limelight.setMinAimCommand(SmartDashboard.getNumber("Minimum Aim Constant: ", limelight.getMinAimCommand()));
+
+        //Go to the target
+        boolean bPressed = controls.getBButton();
+        boolean goTarget = false;
+        if (bPressed){
+            goTarget = true;
+            limelightNetworkTable.getEntry("pipeline").setNumber(0);
+        }
+
+        if (goTarget){
+            drive.setLeftSpeed(calculatedDeltas[1]);
+            drive.setLeftSpeed(calculatedDeltas[1]);
+        }
 
     }
 }
