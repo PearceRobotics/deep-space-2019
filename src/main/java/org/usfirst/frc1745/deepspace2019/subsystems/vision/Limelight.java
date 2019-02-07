@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
  * Add your docs here.
@@ -19,6 +18,13 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class Limelight extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  private static NetworkTableInstance networkTableInstance;
+
+  public Limelight(){
+    networkTableInstance = NetworkTableInstance.getDefault();
+    networkTableInstance.startClientTeam(1745);
+    networkTableInstance.startDSClient();
+  }
 
   @Override
   public void initDefaultCommand() {
@@ -26,20 +32,23 @@ public class Limelight extends Subsystem {
     // do nothing
   }
 
-  //Constants to be adjusted for calculations
-  private double KpAim = -0.1f;
-  private double KpDistance = -0.1f;
-  private double min_aim_command = 0.05f;
+  // Constants to be adjusted for calculations
+  private double KpAim = -0.02;
+  private double KpDistance = 0.01;
+  private double min_aim_command = 0;
 
-  //Get Network Table
-  public NetworkTable getLimelightNetworkTable() {
-    
-    return NetworkTableInstance.getDefault().getTable("limelight");
+  // Get Network Table
+  public static NetworkTable getLimelightNetworkTable() {
+    return networkTableInstance.getDefault().getTable("limelight");
   }
 
-  //Uses NetworkTable values to calculate speed
+  // Uses NetworkTable values to calculate speed
   public double[] calcSpeed(NetworkTable table) {
 
+    //NetworkTableEntry tx = table.getEntry("tx");
+    //NetworkTableEntry ty = table.getEntry("ty");
+    //NetworkTableEntry ta = table.getEntry("ta");
+    
     double tx = table.getEntry("tx").getDouble(0.0);
     double ty = table.getEntry("ty").getDouble(0.0);
 
@@ -57,24 +66,24 @@ public class Limelight extends Subsystem {
 
     double leftDelta = steeringAdjust + distanceAdjust;
     double rightDelta = -(steeringAdjust + distanceAdjust);
-    
-    //Sets left and right delta values in an array
-    return new double[] { leftDelta, rightDelta };
+
+    // Sets left and right delta values in an array
+    return new double[] { leftDelta, rightDelta, steeringAdjust };
 
   }
 
-  //Getters and setters
-  //Aim Constant
+  // Getters and setters
+  // Aim Constant
   public double getKpAim() {
     return KpAim;
   }
-  
+
   public double setKpAim(double KpAim) {
     this.KpAim = KpAim;
     return KpAim;
   }
 
-  //Distance Contants
+  // Distance Contants
   public double getKpDistance() {
     return KpDistance;
   }
@@ -83,7 +92,8 @@ public class Limelight extends Subsystem {
     this.KpDistance = KpDistance;
     return KpDistance;
   }
-  //Minimum Aim Constant
+
+  // Minimum Aim Constant
   public double getMinAimCommand() {
     return min_aim_command;
   }
@@ -93,12 +103,12 @@ public class Limelight extends Subsystem {
     return min_aim_command;
   }
 
-  public double rightTargetSpeed(double rightDelta){
+  public double rightTargetSpeed(double rightDelta) {
     double rightTargetSpeed = rightDelta;
     return rightTargetSpeed;
   }
 
-  public double leftTargetSpeed(double leftDelta){
+  public double leftTargetSpeed(double leftDelta) {
     double leftTargetSpeed = leftDelta;
     return leftTargetSpeed;
   }
