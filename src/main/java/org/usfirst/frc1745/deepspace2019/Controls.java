@@ -6,8 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 package org.usfirst.frc1745.deepspace2019;
+
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.*;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 
 /**
  * Add your docs here.
@@ -28,7 +29,6 @@ public class Controls {
 
     public double getLeftY(double deadzone) {
         double y = joystick.getRawAxis(LEFT_Y);
-        
         if(Math.abs(y) < deadzone) {
             return 0.0;
         } else if(y > 0) {
