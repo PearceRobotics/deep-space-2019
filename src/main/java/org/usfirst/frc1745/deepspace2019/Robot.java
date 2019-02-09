@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
     private Controls controls;
     private Drive drive;
     private Limelight limelight;
+    private NetworkOperations networkOperations;
 
     private final int JOYSTICK_PORT = 0;
 
@@ -73,6 +74,7 @@ public class Robot extends TimedRobot {
         this.drive = new Drive();
         this.limelight = new Limelight();
         this.controls = new Controls(new Joystick(JOYSTICK_PORT));
+        this.networkOperations = new NetworkOperations();
     }
 
     /**
@@ -139,10 +141,12 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Tx Value:", limelightNetworkTable.getEntry("tx").getDouble(0.0));
         SmartDashboard.putNumber("Ty Value:", limelightNetworkTable.getEntry("ty").getDouble(0.0));
         SmartDashboard.putNumber("Deadband", limelight.getDeadband());
+
+        
        
         //Set constants
         Preferences preferences = Preferences.getInstance();
-        limelight.setKpAim(preferences.getDouble("KpAimConstant", limelight.getKpAim()));
+        limelight.setKpAim(preferences.getDouble("KpAimConstant", 0.0));
         limelight.setKpDistance(preferences.getDouble("KpDistanceConstant", limelight.getKpDistance()));
         limelight.setMinAimCommand(preferences.getDouble("MinAimCommand", limelight.getMinAimCommand()));
         limelight.setDeadband(preferences.getDouble("Deadband", limelight.getDeadband()));
