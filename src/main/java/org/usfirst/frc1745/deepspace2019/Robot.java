@@ -138,23 +138,20 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Aim Constant: ", limelight.getKpAim());
         SmartDashboard.putNumber("Tx Value:", limelightNetworkTable.getEntry("tx").getDouble(0.0));
         SmartDashboard.putNumber("Ty Value:", limelightNetworkTable.getEntry("ty").getDouble(0.0));
-        //System.out.println(limelightNetworkTable.getEntry("tx").getDouble(0.0));
-        //System.out.println( limelightNetworkTable.getEntry("ty").getDouble(0.0));
        
         //Set constants
         Preferences preferences = Preferences.getInstance();
-        limelight.setKpAim(preferences.getDouble("KpAim Constant", limelight.getKpAim()));
-        limelight.setKpDistance(preferences.getDouble("KpDistance Constant", limelight.getKpDistance()));
+        limelight.setKpAim(preferences.getDouble("KpAimConstant", limelight.getKpAim()));
+        limelight.setKpDistance(preferences.getDouble("KpDistanceConstant", limelight.getKpDistance()));
         limelight.setMinAimCommand(preferences.getDouble("MinAimCommand", limelight.getMinAimCommand()));
-
+        
         //Go to the target
         boolean bPressed = controls.getBButton();
         if (bPressed){
-            //limelightNetworkTable.getEntry("pipeline").setNumber(0);
             drive.setRightSpeed(calculatedDeltas[1]);
             drive.setLeftSpeed(calculatedDeltas[0]);
-            
         }
 
+        
     }
 }
