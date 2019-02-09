@@ -45,9 +45,15 @@ public class Gearbox extends Subsystem {
   }
 
   public void setSpeed(double rate) {
-    if(rate < 1.0 && rate > -1.0) {
-      this.frontController.set(rate);
+    if(rate < -1.0)
+    {
+      rate = -1.0;
     }
+    else if(rate > 1.0)
+    {
+      rate = 1.0;
+    }
+    this.frontController.set(rate);
   }
 
   public boolean setRampRate(double rampRate) {
