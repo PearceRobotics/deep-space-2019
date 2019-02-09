@@ -34,8 +34,9 @@ public class Limelight extends Subsystem {
 
   // Constants to be adjusted for calculations
   private double KpAim = -0.02;
-  private double KpDistance = 0.01;
+  private double KpDistance = -0.02;
   private double min_aim_command = 0;
+  private double deadband = 2.0;
 
   // Get Network Table
   public static NetworkTable getLimelightNetworkTable() {
@@ -52,16 +53,16 @@ public class Limelight extends Subsystem {
     double distanceError = -ty;
     double steeringAdjust = 0.0f;
 
-    if (tx > 1.0) {
-      steeringAdjust = KpAim * headingError - min_aim_command;
-    } else if (tx < 1.0) {
-      steeringAdjust = KpAim * headingError + min_aim_command;
+    if (tx > deadband) {
+      steeringAdjust = (KpAim * headingError) - min_aim_command;
+    } else if (tx < -deadband) {
+      steeringAdjust = (KpAim * headingError) + min_aim_command;
     }
 
     double distanceAdjust = KpDistance * distanceError;
 
-    double leftDelta = distanceAdjust - steeringAdjust;
-    double rightDelta = steeringAdjust + distanceAdjust;
+    double leftDelta = (-distanceAdjust + steeringAdjust);
+    double rightDelta = (distanceAdjust + steeringAdjust);
 
     // Sets left and right delta values in an array
     return new double[] { leftDelta, rightDelta, steeringAdjust };
@@ -92,6 +93,15 @@ public class Limelight extends Subsystem {
   // Minimum Aim Constant
   public double getMinAimCommand() {
     return min_aim_command;
+  }
+
+  public double getDeadband() {
+    return this.deadband;
+  }
+
+  public double setDeadband(double deadband) {
+    this.deadband = deadband;
+    return deadband;
   }
 
   public double setMinAimCommand(double min_aim_command) {
