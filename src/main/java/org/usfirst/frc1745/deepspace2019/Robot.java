@@ -138,13 +138,14 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Aim Constant: ", limelight.getKpAim());
         SmartDashboard.putNumber("Tx Value:", limelightNetworkTable.getEntry("tx").getDouble(0.0));
         SmartDashboard.putNumber("Ty Value:", limelightNetworkTable.getEntry("ty").getDouble(0.0));
+        SmartDashboard.putNumber("Deadband", limelight.getDeadband());
        
         //Set constants
         Preferences preferences = Preferences.getInstance();
         limelight.setKpAim(preferences.getDouble("KpAimConstant", limelight.getKpAim()));
         limelight.setKpDistance(preferences.getDouble("KpDistanceConstant", limelight.getKpDistance()));
         limelight.setMinAimCommand(preferences.getDouble("MinAimCommand", limelight.getMinAimCommand()));
-        
+        limelight.setDeadband(preferences.getDouble("Deadband", limelight.getDeadband()));
         //Go to the target
         boolean bPressed = controls.getBButton();
         if (bPressed){
