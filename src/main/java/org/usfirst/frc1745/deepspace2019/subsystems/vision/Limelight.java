@@ -45,10 +45,6 @@ public class Limelight extends Subsystem {
   // Uses NetworkTable values to calculate speed
   public double[] calcSpeed(NetworkTable table) {
 
-    //NetworkTableEntry tx = table.getEntry("tx");
-    //NetworkTableEntry ty = table.getEntry("ty");
-    //NetworkTableEntry ta = table.getEntry("ta");
-    
     double tx = table.getEntry("tx").getDouble(0.0);
     double ty = table.getEntry("ty").getDouble(0.0);
 
@@ -64,8 +60,8 @@ public class Limelight extends Subsystem {
 
     double distanceAdjust = KpDistance * distanceError;
 
-    double leftDelta = steeringAdjust + distanceAdjust;
-    double rightDelta = -(steeringAdjust + distanceAdjust);
+    double leftDelta = distanceAdjust - steeringAdjust;
+    double rightDelta = steeringAdjust + distanceAdjust;
 
     // Sets left and right delta values in an array
     return new double[] { leftDelta, rightDelta, steeringAdjust };
