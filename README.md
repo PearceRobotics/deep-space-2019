@@ -6,6 +6,7 @@ Source code for the 2019 FRC season - Deep Space
 ### Getting Started
 - Install [GitHub desktop](https://desktop.github.com/) to push and pull from GitHub
 - Install [Java JDK 11](https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html) and ensure `java -version` shows you are using JDK 11 (note you *will* need to set your java path to JDK 11)
+  - [How to set your java path](https://www.java.com/en/download/help/path.xml)
 - Install [VSCode](https://code.visualstudio.com/)
   - Within VSCode install the follow extensions:
     - [WPILib - wpilibsuite.vscode-wpilib](https://marketplace.visualstudio.com/items?itemName=wpilibsuite.vscode-wpilib)
