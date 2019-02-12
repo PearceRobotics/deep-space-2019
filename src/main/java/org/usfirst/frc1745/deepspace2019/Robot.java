@@ -125,10 +125,21 @@ public class Robot extends TimedRobot {
         drive.setLeftSpeed(-controls.getLeftY(DEADZONE) * .75);
         drive.setRightSpeed(controls.getRightY(DEADZONE) * .75);
 
-        // Adds the right and left delta values to SmartDashboard
+        //Sets network table for limelight
         NetworkTable limelightNetworkTable = NetworkOperations.getNetworkTable("limelight");
         double[] calculatedDeltas = limelight.calcSpeed(limelightNetworkTable);
 
+        getSetLimelightValues(calculatedDeltas, limelightNetworkTable);
+
+        // Go to the target
+        boolean bPressed = controls.getBButton();
+        if (bPressed) {
+            drive.setRightSpeed(calculatedDeltas[1]);
+            drive.setLeftSpeed(calculatedDeltas[0]);
+        }
+    }
+
+    private void getSetLimelightValues(double[] calculatedDeltas, NetworkTable limelightNetworkTable){
         // Send all data to the dashboard
         NetworkOperations.setSmartDBNumVar("Left Delta: ", calculatedDeltas[0]);
         NetworkOperations.setSmartDBNumVar("Right Delta ", calculatedDeltas[1]);
@@ -145,13 +156,5 @@ public class Robot extends TimedRobot {
         limelight.setKpDistance(NetworkOperations.getPreferencesDouble("KpDistanceConstant"));
         limelight.setMinAimCommand(NetworkOperations.getPreferencesDouble("MinAimCommand"));
         limelight.setDeadband(NetworkOperations.getPreferencesDouble("Deadband"));
-
-        // Go to the target
-        boolean bPressed = controls.getBButton();
-        if (bPressed) {
-            drive.setRightSpeed(calculatedDeltas[1]);
-            drive.setLeftSpeed(calculatedDeltas[0]);
-        }
-
     }
 }
