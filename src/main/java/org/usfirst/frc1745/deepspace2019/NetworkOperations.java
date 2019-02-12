@@ -8,7 +8,6 @@
 package org.usfirst.frc1745.deepspace2019;
 
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Preferences;
@@ -17,7 +16,7 @@ import edu.wpi.first.wpilibj.Preferences;
  * Add your docs here.
  */
 public class NetworkOperations {
-    private Preferences preferences;
+    private static Preferences preferences;
     private static NetworkTableInstance networkTable;
 
     public NetworkOperations() {
@@ -26,15 +25,15 @@ public class NetworkOperations {
         networkTable.startDSClient();
     }
 
-    public static NetworkTable getLimelightNetworkTable(String networkTableName) {
+    public static NetworkTable getNetworkTable(String networkTableName) {
         return networkTable.getDefault().getTable(networkTableName);
-      }
+    }
 
-    public double getPreferencesDouble(String label){
+    public static double getPreferencesDouble(String label) {
         return preferences.getDouble(label, 0.0);
     }
 
-    public void setSmartDBNumVar(String label, double value){
+    public static void setSmartDBNumVar(String label, double value) {
         SmartDashboard.putNumber(label, value);
     }
 }
