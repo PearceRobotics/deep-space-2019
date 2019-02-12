@@ -23,6 +23,7 @@ public class NetworkOperations {
         networkTable = networkTable.getDefault();
         networkTable.startClientTeam(1745);
         networkTable.startDSClient();
+        preferences = Preferences.getInstance();
     }
 
     public static NetworkTable getNetworkTable(String networkTableName) {
