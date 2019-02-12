@@ -9,6 +9,8 @@ package org.usfirst.frc1745.deepspace2019.subsystems.vision;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableEntry;
 
 /**
  * Add your docs here.
@@ -16,6 +18,13 @@ import edu.wpi.first.networktables.NetworkTable;
 public class Limelight extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  private static NetworkTableInstance networkTableInstance;
+
+  public Limelight(){
+    networkTableInstance = NetworkTableInstance.getDefault();
+    networkTableInstance.startClientTeam(1745);
+    networkTableInstance.startDSClient();
+  }
 
   @Override
   public void initDefaultCommand() {
@@ -28,6 +37,11 @@ public class Limelight extends Subsystem {
   private double KpDistance = -0.02;
   private double min_aim_command = 0;
   private double deadband = 2.0;
+
+  // Get Network Table
+  public static NetworkTable getLimelightNetworkTable() {
+    return networkTableInstance.getDefault().getTable("limelight");
+  }
 
   // Uses NetworkTable values to calculate speed
   public double[] calcSpeed(NetworkTable table) {
