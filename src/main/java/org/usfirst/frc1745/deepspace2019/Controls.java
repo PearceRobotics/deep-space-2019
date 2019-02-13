@@ -17,9 +17,14 @@ public class Controls {
     private Joystick joystick;
     private final int LEFT_Y = 1;
     private final int RIGHT_Y = 5;
+    private final int B_BUTTON = 2;
 
     public Controls(Joystick joystick) {
         this.joystick = joystick;
+    }
+    
+    public boolean getBButton() {
+        return joystick.getRawButton(B_BUTTON);
     }
 
     public double getLeftY(double deadzone) {

@@ -35,34 +35,35 @@ public class Gearbox extends Subsystem {
      * Slave controllers _only_ mirror the voltage, no other settings
      */
     CANError backSlave = this.backController.follow(this.frontController);
-    //TODO - log error status
+    // TODO - log error status
     CANError middleSlave = this.middleController.follow(this.frontController);
-    //TODO - log error status
-    if(backSlave != CANError.kOK || middleSlave != CANError.kOK) {
-      throw new IllegalStateException("Unsucessful in setting leader. BackSlave error status: " 
-                                          + backSlave.name() + " MiddleSlave error status: " + middleSlave.name());
+    // TODO - log error status
+    if (backSlave != CANError.kOK || middleSlave != CANError.kOK) {
+      throw new IllegalStateException("Unsucessful in setting leader. BackSlave error status: " + backSlave.name()
+          + " MiddleSlave error status: " + middleSlave.name());
     }
   }
 
   public void setSpeed(double rate) {
-    if(rate < 1.0 && rate > -1.0) {
-      this.frontController.set(rate);
+    if (rate < -1.0) {
+      rate = -1.0;
+    } else if (rate > 1.0) {
+      rate = 1.0;
     }
+    this.frontController.set(rate);
   }
 
   public boolean setRampRate(double rampRate) {
-    if(rampRate > this.frontController.getRampRate()) {
+    if (rampRate > this.frontController.getRampRate()) {
       return false;
     }
     CANError frontRampRate = this.frontController.setRampRate(rampRate);
-        //TODO - log error status
+    // TODO - log error status
     CANError middleRampRate = this.middleController.setRampRate(rampRate);
-        //TODO - log error status
+    // TODO - log error status
     CANError backRampRate = this.backController.setRampRate(rampRate);
 
-    return (frontRampRate == CANError.kOK
-              && middleRampRate == CANError.kOK 
-              && backRampRate == CANError.kOK);
+    return (frontRampRate == CANError.kOK && middleRampRate == CANError.kOK && backRampRate == CANError.kOK);
   }
 
   public CANSparkMax getBackController() {
@@ -76,7 +77,6 @@ public class Gearbox extends Subsystem {
   public CANSparkMax getFrontController() {
     return this.frontController;
   }
-
 
   @Override
   public void initDefaultCommand() {
