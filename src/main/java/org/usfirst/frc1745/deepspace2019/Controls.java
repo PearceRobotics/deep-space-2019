@@ -17,6 +17,7 @@ public class Controls {
     private Joystick joystick;
     private final int LEFT_Y = 1;
     private final int RIGHT_Y = 5;
+    private final int RIGHT_X = 4;
     private final int B_BUTTON = 2;
 
     public Controls(Joystick joystick) {
@@ -46,6 +47,17 @@ public class Controls {
                 return y - deadzone;
         } else {
             return y + deadzone;
+        }
+    }
+
+    public double getRightX(double deadzone) {
+        double x = joystick.getRawAxis(RIGHT_X);
+        if(Math.abs(x) < deadzone) {
+            return 0.0;
+        } else if(x > 0) {
+                return x - deadzone;
+        } else {
+            return x + deadzone;
         }
     }
 }

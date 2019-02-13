@@ -10,15 +10,13 @@ package org.usfirst.frc1745.deepspace2019.subsystems.drive;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-
 /**
  * Add your docs here.
  */
-public class Drive extends Subsystem {
+public class Drive {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-
+  public double kI;
   private Gearbox leftGearbox;
   private Gearbox rightGearbox;
   //left gear box CAN ids
@@ -50,10 +48,15 @@ public class Drive extends Subsystem {
     rightGearbox.setSpeed(speed);
   }
 
+  public double setkI(double kI) {
+    this.kI = kI;
+    return this.kI;
+  }
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+  public void arcadeDrive(double leftY, double rightX) {
+    double error = (leftGearbox.getVelocity()-rightGearbox.getVelocity()) - rightX;
+    double turnPower = error*rightX + kI;
+    setLeftSpeed(-(leftY - turnPower));
+    setRightSpeed(leftY + turnPower);
   }
 }

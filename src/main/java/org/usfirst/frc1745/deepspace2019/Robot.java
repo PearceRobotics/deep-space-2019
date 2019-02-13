@@ -122,14 +122,14 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        drive.setLeftSpeed(-controls.getLeftY(DEADZONE) * .75);
-        drive.setRightSpeed(controls.getRightY(DEADZONE) * .75);
+        drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE));
 
         //Sets network table for limelight
         NetworkTable limelightNetworkTable = NetworkOperations.getNetworkTable("limelight");
         double[] calculatedDeltas = limelight.calcSpeed(limelightNetworkTable);
 
         getSetLimelightValues(calculatedDeltas, limelightNetworkTable);
+        drive.setkI(NetworkOperations.getPreferencesDouble("KiConstant"));
 
         // Go to the target
         boolean bPressed = controls.getBButton();

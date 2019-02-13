@@ -7,15 +7,15 @@
 
 package org.usfirst.frc1745.deepspace2019.subsystems.drive;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANError;
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public class Gearbox extends Subsystem {
+public class Gearbox {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -78,9 +78,8 @@ public class Gearbox extends Subsystem {
     return this.frontController;
   }
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+  public double getVelocity() {
+    CANEncoder encoder = this.frontController.getEncoder();
+    return encoder.getVelocity();
   }
 }
