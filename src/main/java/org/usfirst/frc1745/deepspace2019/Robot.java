@@ -9,10 +9,8 @@
 // it from being updated in the future.
 
 package org.usfirst.frc1745.deepspace2019;
-import edu.wpi.first.networktables.*;
+
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc1745.deepspace2019.subsystems.drive.Drive;
 import org.usfirst.frc1745.deepspace2019.subsystems.vision.Limelight;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.Preferences;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -44,10 +42,11 @@ public class Robot extends TimedRobot {
     private Controls controls;
     private Drive drive;
     private Limelight limelight;
+    private NetworkOperations networkOperations;
 
     private final int JOYSTICK_PORT = 0;
 
-    private final double DEADZONE = 0.1;
+    private final double DEADZONE = 0;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -73,6 +72,7 @@ public class Robot extends TimedRobot {
         this.drive = new Drive();
         this.limelight = new Limelight();
         this.controls = new Controls(new Joystick(JOYSTICK_PORT));
+        this.networkOperations = new NetworkOperations();
     }
 
     /**
@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
     public void disabledInit() {
 
     }
-//Dear Kusha, S.O.S
+
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
@@ -122,37 +122,40 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        drive.setLeftSpeed(-controls.getLeftY(DEADZONE));
-        drive.setRightSpeed(controls.getRightY(DEADZONE));
 
-        //Adds the right and left delta values to SmartDashboard
-        NetworkTable limelightNetworkTable = limelight.getLimelightNetworkTable();
+        drive.setLeftSpeed(-controls.getLeftY(DEADZONE) * .75);
+        drive.setRightSpeed(controls.getRightY(DEADZONE) * .75);
+
+        //Sets network table for limelight
+        NetworkTable limelightNetworkTable = NetworkOperations.getNetworkTable("limelight");
         double[] calculatedDeltas = limelight.calcSpeed(limelightNetworkTable);
-        
-        //Send all data to the dashboard
-        SmartDashboard.putNumber("Left Delta: ", calculatedDeltas[0]);
-        SmartDashboard.putNumber("Right Delta ", calculatedDeltas[1]);
-        SmartDashboard.putNumber("Steering Adjust:", calculatedDeltas[2]);
-        SmartDashboard.putNumber("Minimum Aim Constant: ", limelight.getMinAimCommand());
-        SmartDashboard.putNumber("Distance Constant: ", limelight.getKpDistance());
-        SmartDashboard.putNumber("Aim Constant: ", limelight.getKpAim());
-        SmartDashboard.putNumber("Tx Value:", limelightNetworkTable.getEntry("tx").getDouble(0.0));
-        SmartDashboard.putNumber("Ty Value:", limelightNetworkTable.getEntry("ty").getDouble(0.0));
-        SmartDashboard.putNumber("Deadband", limelight.getDeadband());
-       
-        //Set constants
-        Preferences preferences = Preferences.getInstance();
-        limelight.setKpAim(preferences.getDouble("KpAimConstant", limelight.getKpAim()));
-        limelight.setKpDistance(preferences.getDouble("KpDistanceConstant", limelight.getKpDistance()));
-        limelight.setMinAimCommand(preferences.getDouble("MinAimCommand", limelight.getMinAimCommand()));
-        limelight.setDeadband(preferences.getDouble("Deadband", limelight.getDeadband()));
-        //Go to the target
+
+        getSetLimelightValues(calculatedDeltas, limelightNetworkTable);
+
+        // Go to the target
         boolean bPressed = controls.getBButton();
-        if (bPressed){
+        if (bPressed) {
             drive.setRightSpeed(calculatedDeltas[1]);
             drive.setLeftSpeed(calculatedDeltas[0]);
         }
+    }
 
-        
+    private void getSetLimelightValues(double[] calculatedDeltas, NetworkTable limelightNetworkTable){
+        // Send all data to the dashboard
+        NetworkOperations.setSmartDBNumVar("Left Delta: ", calculatedDeltas[0]);
+        NetworkOperations.setSmartDBNumVar("Right Delta ", calculatedDeltas[1]);
+        NetworkOperations.setSmartDBNumVar("Steering Adjust:", calculatedDeltas[2]);
+        NetworkOperations.setSmartDBNumVar("Minimum Aim Constant: ", limelight.getMinAimCommand());
+        NetworkOperations.setSmartDBNumVar("Distance Constant: ", limelight.getKpDistance());
+        NetworkOperations.setSmartDBNumVar("Aim Constant: ", limelight.getKpAim());
+        NetworkOperations.setSmartDBNumVar("Tx Value:", limelightNetworkTable.getEntry("tx").getDouble(0.0));
+        NetworkOperations.setSmartDBNumVar("Ty Value:", limelightNetworkTable.getEntry("ty").getDouble(0.0));
+        NetworkOperations.setSmartDBNumVar("Deadband", limelight.getDeadband());
+
+        // Set constants
+        limelight.setKpAim(NetworkOperations.getPreferencesDouble("KpAimConstant"));
+        limelight.setKpDistance(NetworkOperations.getPreferencesDouble("KpDistanceConstant"));
+        limelight.setMinAimCommand(NetworkOperations.getPreferencesDouble("MinAimCommand"));
+        limelight.setDeadband(NetworkOperations.getPreferencesDouble("Deadband"));
     }
 }
