@@ -7,26 +7,17 @@
 
 package org.usfirst.frc1745.deepspace2019.subsystems.vision;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.networktables.NetworkTable;
 
 /**
  * Add your docs here.
  */
-public class Limelight extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-
-  @Override
-  public void initDefaultCommand() {
-
-    // do nothing
-  }
-
+public class Limelight {
+  
   // Constants to be adjusted for calculations
-  private double KpAim = -0.02;
-  private double KpDistance = -0.02;
-  private double min_aim_command = 0;
+  private double kpAim = -0.02;
+  private double kpDistance = -0.02;
+  private double minAimCommand = 0;
   private double deadband = 2.0;
 
   // Uses NetworkTable values to calculate speed
@@ -40,68 +31,57 @@ public class Limelight extends Subsystem {
     double steeringAdjust = 0.0f;
 
     if (tx > deadband) {
-      steeringAdjust = (KpAim * headingError) - min_aim_command;
+      steeringAdjust = (kpAim * headingError) - minAimCommand;
     } else if (tx < -deadband) {
-      steeringAdjust = (KpAim * headingError) + min_aim_command;
+      steeringAdjust = (kpAim * headingError) + minAimCommand;
     }
 
-    double distanceAdjust = KpDistance * distanceError;
+    double distanceAdjust = kpDistance * distanceError;
 
     double leftDelta = (-distanceAdjust + steeringAdjust);
     double rightDelta = (distanceAdjust + steeringAdjust);
 
     // Sets left and right delta values in an array
     return new double[] { leftDelta, rightDelta, steeringAdjust };
-
   }
 
   // Getters and setters
   // Aim Constant
   public double getKpAim() {
-    return KpAim;
+    return this.kpAim;
   }
 
-  public double setKpAim(double KpAim) {
-    this.KpAim = KpAim;
-    return KpAim;
+  public double setKpAim(double kpAim) {
+    this.kpAim = kpAim;
+    return this.kpAim;
   }
 
   // Distance Contants
   public double getKpDistance() {
-    return KpDistance;
+    return this.kpDistance;
   }
 
-  public double setKpDistance(double KpDistance) {
-    this.KpDistance = KpDistance;
-    return KpDistance;
+  public double setKpDistance(double kpDistance) {
+    this.kpDistance = kpDistance;
+    return this.kpDistance;
   }
 
   // Minimum Aim Constant
   public double getMinAimCommand() {
-    return min_aim_command;
+    return this.minAimCommand;
   }
 
+  public double setMinAimCommand(double minAimCommand) {
+    this.minAimCommand = minAimCommand;
+    return this.minAimCommand;
+  }
+  
   public double getDeadband() {
     return this.deadband;
   }
 
   public double setDeadband(double deadband) {
     this.deadband = deadband;
-    return deadband;
-  }
-
-  public double setMinAimCommand(double min_aim_command) {
-    this.min_aim_command = min_aim_command;
-    return min_aim_command;
-  }
-
-  public double rightTargetSpeed(double rightDelta) {
-    double rightTargetSpeed = rightDelta;
-    return rightTargetSpeed;
-  }
-
-  public double leftTargetSpeed(double leftDelta) {
-    double leftTargetSpeed = leftDelta;
-    return leftTargetSpeed;
+    return this.deadband;
   }
 }
