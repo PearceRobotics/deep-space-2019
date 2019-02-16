@@ -8,17 +8,14 @@
 package org.usfirst.frc1745.deepspace2019;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 
-/**
- * Add your docs here.
- */
 public class Controls {
     private Joystick joystick;
     private final int LEFT_Y = 1;
     private final int RIGHT_X = 4;
     private final int RIGHT_Y = 5;
     private final int B_BUTTON = 2;
+    private final int RIGHT_BUMPER = 6;
 
     public Controls(Joystick joystick) {
         this.joystick = joystick;
@@ -26,6 +23,10 @@ public class Controls {
     
     public boolean getBButton() {
         return joystick.getRawButton(B_BUTTON);
+    }
+
+    public boolean getRightBumper() {
+        return joystick.getRawButton(RIGHT_BUMPER);
     }
 
     public double getLeftY(double deadzone) {

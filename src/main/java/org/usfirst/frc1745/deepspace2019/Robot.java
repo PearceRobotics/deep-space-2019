@@ -13,10 +13,14 @@ package org.usfirst.frc1745.deepspace2019;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc1745.deepspace2019.subsystems.NavX;
+import org.usfirst.frc1745.deepspace2019.subsystems.RotationController;
 import org.usfirst.frc1745.deepspace2019.subsystems.drive.Drive;
 import org.usfirst.frc1745.deepspace2019.subsystems.vision.Limelight;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -43,10 +47,13 @@ public class Robot extends TimedRobot {
     private Drive drive;
     private Limelight limelight;
     private NetworkOperations networkOperations;
-
+    private NavX navX;
+    private RotationController rotationController;
     private final int JOYSTICK_PORT = 0;
 
     private final double DEADZONE = 0.1;
+
+    private boolean rightBumperPressed = false;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -73,6 +80,8 @@ public class Robot extends TimedRobot {
         this.limelight = new Limelight();
         this.controls = new Controls(new Joystick(JOYSTICK_PORT));
         this.networkOperations = new NetworkOperations();
+        this.navX = new NavX();
+        this.rotationController = new RotationController(navX.getAHRS());
     }
 
     /**
@@ -114,6 +123,10 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null)
             autonomousCommand.cancel();
 
+            rightBumperPressed = false;
+            rotationController.disable();
+            navX.resetYaw();
+
     }
 
     /**
@@ -130,11 +143,24 @@ public class Robot extends TimedRobot {
         getSetLimelightValues(calculatedDeltas, limelightNetworkTable);
 
         // Go to the target
-        boolean bPressed = controls.getBButton();
-        if (bPressed) {
+        if (controls.getBButton()) {
             drive.setRightSpeed(calculatedDeltas[1]);
             drive.setLeftSpeed(calculatedDeltas[0]);
         }
+        if (controls.getRightBumper()) {
+            rightBumperPressed = true;
+            navX.resetYaw();
+            rotationController.setSetPoint(90);
+        } else if(rightBumperPressed && rotationController.getRotateToAngleRate() == 0.0) {
+            rightBumperPressed = false;
+            rotationController.disable();
+            navX.resetYaw();
+        } else if(rightBumperPressed) {
+            drive.arcadeDrive(0, rotationController.getRotateToAngleRate()/5);
+        }
+        System.out.println(navX.getYaw());
+        System.out.println("rotate" + rotationController.getRotateToAngleRate());
+        Timer.delay(0.05); // wait for a motor update time
     }
 
     private void getSetLimelightValues(double[] calculatedDeltas, NetworkTable limelightNetworkTable){
