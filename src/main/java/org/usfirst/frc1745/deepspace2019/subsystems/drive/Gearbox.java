@@ -10,14 +10,7 @@ package org.usfirst.frc1745.deepspace2019.subsystems.drive;
 import com.revrobotics.CANError;
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-
-/**
- * Add your docs here.
- */
-public class Gearbox extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+public class Gearbox {
 
   private CANSparkMax backController;
   private CANSparkMax middleController;
@@ -65,9 +58,4 @@ public class Gearbox extends Subsystem {
     return this.frontController;
   }
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-  }
 }

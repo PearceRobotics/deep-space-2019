@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc1745.deepspace2019.subsystems.NavX;
+import org.usfirst.frc1745.deepspace2019.subsystems.AnalogIMU;
 import org.usfirst.frc1745.deepspace2019.subsystems.RotationController;
 import org.usfirst.frc1745.deepspace2019.subsystems.drive.Drive;
 import org.usfirst.frc1745.deepspace2019.subsystems.vision.Limelight;
@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
     private Drive drive;
     private Limelight limelight;
     private NetworkOperations networkOperations;
-    private NavX navX;
+    private AnalogIMU gyro;
     private RotationController rotationController;
     private final int JOYSTICK_PORT = 0;
 
@@ -80,8 +80,8 @@ public class Robot extends TimedRobot {
         this.limelight = new Limelight();
         this.controls = new Controls(new Joystick(JOYSTICK_PORT));
         this.networkOperations = new NetworkOperations();
-        this.navX = new NavX();
-        this.rotationController = new RotationController(navX.getAHRS());
+        this.gyro = new AnalogIMU();
+        this.rotationController = new RotationController(gyro.getSensor());
     }
 
     /**
@@ -90,7 +90,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
-
+        resetGyro();
     }
 
     @Override
@@ -122,11 +122,7 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
         if (autonomousCommand != null)
             autonomousCommand.cancel();
-
-            rightBumperPressed = false;
-            rotationController.disable();
-            navX.resetYaw();
-
+        resetGyro();
     }
 
     /**
@@ -158,18 +154,24 @@ public class Robot extends TimedRobot {
         }
         if (controls.getRightBumper()) {
             rightBumperPressed = true;
-            navX.resetYaw();
+            gyro.reset();
             rotationController.setSetPoint(90);
-        } else if(rightBumperPressed && rotationController.getRotateToAngleRate() == 0.0) {
-            rightBumperPressed = false;
-            rotationController.disable();
-            navX.resetYaw();
+        } else if(rightBumperPressed && rotationController.getRotateToAngleRate() <= 0.01 && rotationController.isEnabled()) {
+            resetGyro();
+            System.out.println("right bumper pressed true");
         } else if(rightBumperPressed) {
-            drive.arcadeDrive(0, rotationController.getRotateToAngleRate()/5);
-        }
-        System.out.println(navX.getYaw());
+            drive.arcadeDrive(0, rotationController.getRotateToAngleRate());
+        } 
+
+        System.out.println(gyro.getAngle());
         System.out.println("rotate" + rotationController.getRotateToAngleRate());
         Timer.delay(0.05); // wait for a motor update time
+    }
+    private void resetGyro() {
+        rightBumperPressed = false;
+        rotationController.disable();
+        gyro.reset();
+        System.out.println("resetting");
     }
 
     private void getSetLimelightValues(double[] calculatedDeltas, NetworkTable limelightNetworkTable){

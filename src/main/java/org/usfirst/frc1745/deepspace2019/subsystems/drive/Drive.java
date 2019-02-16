@@ -47,9 +47,4 @@ public class Drive {
     this.setLeftSpeed(-(staightSpeed - turnModifer));
     this.setRightSpeed(staightSpeed + turnModifer);
   }
-
-  public void arcadeDrive(double forwardRate, double rotationRate) {
-    setLeftSpeed(forwardRate - rotationRate);
-    setRightSpeed(-(forwardRate + rotationRate));
-  }
 }
