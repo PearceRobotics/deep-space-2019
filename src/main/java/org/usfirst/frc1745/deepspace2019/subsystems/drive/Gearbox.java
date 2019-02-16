@@ -10,14 +10,7 @@ package org.usfirst.frc1745.deepspace2019.subsystems.drive;
 import com.revrobotics.CANError;
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
-
-/**
- * Add your docs here.
- */
-public class Gearbox extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+public class Gearbox {
 
   private CANSparkMax backController;
   private CANSparkMax middleController;
@@ -53,18 +46,18 @@ public class Gearbox extends Subsystem {
     this.frontController.set(rate);
   }
 
-  public boolean setRampRate(double rampRate) {
-    if (rampRate > this.frontController.getRampRate()) {
-      return false;
-    }
-    CANError frontRampRate = this.frontController.setRampRate(rampRate);
-    // TODO - log error status
-    CANError middleRampRate = this.middleController.setRampRate(rampRate);
-    // TODO - log error status
-    CANError backRampRate = this.backController.setRampRate(rampRate);
+  // public boolean setRampRate(double rampRate) {
+  //   if (rampRate > this.frontController.getRampRate()) {
+  //     return false;
+  //   }
+  //   CANError frontRampRate = this.frontController.setRampRate(rampRate);
+  //   // TODO - log error status
+  //   CANError middleRampRate = this.middleController.setRampRate(rampRate);
+  //   // TODO - log error status
+  //   CANError backRampRate = this.backController.setRampRate(rampRate);
 
-    return (frontRampRate == CANError.kOK && middleRampRate == CANError.kOK && backRampRate == CANError.kOK);
-  }
+  //   return (frontRampRate == CANError.kOK && middleRampRate == CANError.kOK && backRampRate == CANError.kOK);
+  // }
 
   public CANSparkMax getBackController() {
     return this.backController;
@@ -78,9 +71,4 @@ public class Gearbox extends Subsystem {
     return this.frontController;
   }
 
-  @Override
-  public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
-  }
 }

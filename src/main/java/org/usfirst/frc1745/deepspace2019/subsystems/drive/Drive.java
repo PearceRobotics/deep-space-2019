@@ -36,11 +36,11 @@ public class Drive {
   }
 
   public void setLeftSpeed(double speed) {
-    leftGearbox.setSpeed(speed);
+    this.leftGearbox.setSpeed(speed);
   }
 
   public void setRightSpeed(double speed) {
-    rightGearbox.setSpeed(speed);
+    this.rightGearbox.setSpeed(speed);
   }
 
   public void arcadeDrive(double forwardRate, double rotationRate) {

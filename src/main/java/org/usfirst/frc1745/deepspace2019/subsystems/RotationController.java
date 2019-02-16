@@ -17,12 +17,12 @@ public class RotationController implements PIDOutput {
   private PIDController turnController;
 
   //TODO: Make final once tuned
-  private static double kP = 0.25; //.1
-  private static double kI = 0.0005;
-  private static double kD = 0.0001;
-  private static double kF = 0.00;
+  private static double kP = 0.01;
+  private static double kI = 0.0;
+  private static double kD = 0.0;
+  private static double kF = 0.0;
   //This tuning parameter indicates how close to "on target" the PID Controller will attempt to get.
-  private static final double kToleranceDegrees = 50f;
+  private static final double kToleranceDegrees = 2f;
   //Set by controller periodically
   private double rotateToAngleRate;
   private PIDSource pidSource;
@@ -45,9 +45,16 @@ public class RotationController implements PIDOutput {
     turnController.disable();
   }
 
+  public boolean isEnabled() {
+    return turnController.isEnabled();
+  }
+
   @Override
   public void pidWrite(double output) {
     rotateToAngleRate = output;
+    if(output <= .01 && turnController.isEnabled()) {
+      turnController.disable();
+    }
   }
 
   public double getRotateToAngleRate() {

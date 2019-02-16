@@ -7,33 +7,38 @@
 
 package org.usfirst.frc1745.deepspace2019.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
+import com.analog.adis16470.frc.ADIS16470_IMU;
+
 
 /**
  * Add your docs here.
  */
-public class NavX {
+public class AnalogIMU {
 
-  private AHRS ahrs;
+  private static ADIS16470_IMU imu;
 
-  public NavX() {
+  public AnalogIMU() {
     try {
-      ahrs = new AHRS(SPI.Port.kMXP); 
+      imu = new ADIS16470_IMU();
     } catch (RuntimeException ex ) {
-      System.out.println("Error instantiating navX-MXP:  " + ex.getMessage());
+      System.out.println("Error instantiating Analog IMU:  " + ex.getMessage());
     }
   }
 
-  public void resetYaw() {
-    ahrs.zeroYaw();
+  //Re-Zeroing the Sensor with reset()
+  public void reset() {
+    imu.reset();
   }
 
-  public float getYaw() {
-    return ahrs.getYaw();
+  public double getAngle() {
+    return imu.getAngle();
+  }
+  
+  public void calibrate() {
+    imu.calibrate();
   }
 
-  public AHRS getAHRS() {
-    return this.ahrs;
+  public ADIS16470_IMU getSensor() {
+    return this.imu;
   }
 }
