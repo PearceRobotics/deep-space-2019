@@ -53,10 +53,29 @@ public class Drive {
     return this.kI;
   }
 
-  public void arcadeDrive(double leftY, double rightX) {
-    double error = (leftGearbox.getVelocity()-rightGearbox.getVelocity()) - rightX;
-    double turnPower = error*rightX + kI;
-    setLeftSpeed(-(leftY - turnPower));
-    setRightSpeed(leftY + turnPower);
+  public double getError(double rightX){
+    return (leftGearbox.getVelocity()-rightGearbox.getVelocity())/rightGearbox.getVelocity() - rightX;
   }
+  
+  public double getTurnPower(double rightX){
+    return getError(rightX) * rightX + kI;
+   //return rightX;
+  }
+
+  public double getLeftVelocity(){
+    return leftGearbox.getVelocity();
+  }
+  
+  public double getRightVelocity(){
+    return rightGearbox.getVelocity();
+  }
+
+  public void arcadeDrive(double leftY, double rightX) {
+    /*double error = (leftGearbox.getVelocity()-rightGearbox.getVelocity()) - rightX;
+    double turnPower = error * rightX + kI;
+    setLeftSpeed(-(leftY - turnPower(rightX)));
+    setRightSpeed(leftY + turnPower(rightX)));*/
+    setLeftSpeed(-(leftY - getTurnPower(rightX)));
+    setRightSpeed(leftY + getTurnPower(rightX));
+    }
 }

@@ -22,12 +22,14 @@ public class Gearbox {
   private CANSparkMax backController;
   private CANSparkMax middleController;
   private CANSparkMax frontController;
+  CANEncoder encoder;
 
   public Gearbox(CANSparkMax backController, CANSparkMax middleController, CANSparkMax frontController) {
     this.backController = backController;
     this.middleController = middleController;
     this.frontController = frontController;
     this.setLeaderToFront();
+    this.encoder  = this.frontController.getEncoder();
   }
 
   private void setLeaderToFront() {
@@ -79,7 +81,7 @@ public class Gearbox {
   }
 
   public double getVelocity() {
-    CANEncoder encoder = this.frontController.getEncoder();
-    return encoder.getVelocity();
+    
+    return this.encoder.getVelocity();
   }
 }

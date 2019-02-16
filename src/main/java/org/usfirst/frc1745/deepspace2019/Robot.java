@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
 
     private final int JOYSTICK_PORT = 0;
 
-    private final double DEADZONE = 0;
+    private final double DEADZONE = 0.02;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -122,7 +122,17 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        //drive.setLeftSpeed(-controls.getLeftY(DEADZONE) * .75);
+        //drive.setRightSpeed(controls.getRightY(DEADZONE) * .75);
         drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE));
+        NetworkOperations.setSmartDBNumVar("turnPower: ", drive.getTurnPower(controls.getRightX(DEADZONE)));
+        NetworkOperations.setSmartDBNumVar("error: ", drive.getError(controls.getRightX(DEADZONE)));
+        NetworkOperations.setSmartDBNumVar("Left Speed: ", -(controls.getLeftY(DEADZONE) - drive.getTurnPower(controls.getRightX(DEADZONE))));
+        NetworkOperations.setSmartDBNumVar("Right Speed: ", (controls.getLeftY(DEADZONE) - drive.getTurnPower(controls.getRightX(DEADZONE))));
+        NetworkOperations.setSmartDBNumVar("Left Velocity", drive.getLeftVelocity());
+        NetworkOperations.setSmartDBNumVar("Right Velocity", drive.getRightVelocity());
+        NetworkOperations.setSmartDBNumVar("LEFT Y: ", controls.getLeftY(DEADZONE));
+        NetworkOperations.setSmartDBNumVar("RIGHT X: ", controls.getRightX(DEADZONE));
 
         //Sets network table for limelight
         NetworkTable limelightNetworkTable = NetworkOperations.getNetworkTable("limelight");
