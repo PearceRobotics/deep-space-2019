@@ -141,6 +141,15 @@ public class Robot extends TimedRobot {
         double[] calculatedDeltas = limelight.calcSpeed(limelightNetworkTable);
 
         getSetLimelightValues(calculatedDeltas, limelightNetworkTable);
+        NetworkOperations.setSmartDBNumVar("Kp Constant Rotation:", rotationController.getKP());
+        NetworkOperations.setSmartDBNumVar("Ki Constant Rotation:", rotationController.getKI());
+        NetworkOperations.setSmartDBNumVar("Kd Constant Rotation:", rotationController.getKD());
+        NetworkOperations.setSmartDBNumVar("Kf Constant Rotation:", rotationController.getKF());
+
+        rotationController.setKp(NetworkOperations.getPreferencesDouble("Rotation Kp"));
+        rotationController.setKI(NetworkOperations.getPreferencesDouble("Rotation Ki"));
+        rotationController.setKD(NetworkOperations.getPreferencesDouble("Rotation Kd"));
+        rotationController.setKF(NetworkOperations.getPreferencesDouble("Rotation Kf"));
 
         // Go to the target
         if (controls.getBButton()) {
