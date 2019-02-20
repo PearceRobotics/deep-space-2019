@@ -19,31 +19,30 @@ public class Controls {
     private final int LEFT_Y = 1;
     private final int RIGHT_Y = 5;
     private final int RIGHT_TOP_BUMPER_ID = 6;
+    private final int B_BUTTON = 2;
 
     public Controls(Joystick joystick) {
         this.joystick = joystick;
+    }
+    
+    public boolean getBButton() {
+        return joystick.getRawButton(B_BUTTON);
     }
 
     public double getLeftY(double deadzone) {
         double y = joystick.getRawAxis(LEFT_Y);
         if(Math.abs(y) < deadzone) {
             return 0.0;
-        } else if(y > 0) {
-                return y - deadzone;
-        } else {
-            return y + deadzone;
-        }
+        } 
+        return y;
     }
 
     public double getRightY(double deadzone) {
         double y = joystick.getRawAxis(RIGHT_Y);
         if(Math.abs(y) < deadzone) {
             return 0.0;
-        } else if(y > 0) {
-                return y - deadzone;
-        } else {
-            return y + deadzone;
-        }
+        } 
+        return y;
     }
 
     public JoystickButton getRightTopBumper() {
