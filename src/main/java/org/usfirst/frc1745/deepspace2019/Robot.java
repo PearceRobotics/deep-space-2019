@@ -130,6 +130,9 @@ public class Robot extends TimedRobot {
         drive.setLeftSpeed(-controls.getLeftY(DEADZONE));
         drive.setRightSpeed(controls.getRightY(DEADZONE));
 
+        this.manipulator.turnOnArm();
+        this.manipulator.turnOnHatchSpinner();
+
         //Sets network table for limelight
         NetworkTable limelightNetworkTable = NetworkOperations.getNetworkTable("limelight");
         double[] calculatedDeltas = limelight.calcSpeed(limelightNetworkTable);

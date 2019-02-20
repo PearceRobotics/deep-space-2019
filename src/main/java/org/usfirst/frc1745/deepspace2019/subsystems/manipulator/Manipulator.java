@@ -7,6 +7,9 @@
 
 package org.usfirst.frc1745.deepspace2019.subsystems.manipulator;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -19,14 +22,29 @@ public class Manipulator extends Subsystem {
   private final int DOUBLESOLENOID_FORWARD_PORT_ID = 0;
   private final int DOUBLESOLENOID_REVERSE_PORT_ID = 1;
 
+  private final int HATCH_SPINNER_CAN_ID = 10;
+  private final int ARM_CAN_ID = 11;
+
   private DoubleSolenoidActuator doubleSolenoid;
+  private CANSparkMax hatchSpinnerController;
+  private CANSparkMax armController;
   
   public Manipulator() {
     this.doubleSolenoid = new DoubleSolenoidActuator(new DoubleSolenoid(DOUBLESOLENOID_FORWARD_PORT_ID, DOUBLESOLENOID_REVERSE_PORT_ID));
+    this.hatchSpinnerController = new CANSparkMax(HATCH_SPINNER_CAN_ID, MotorType.kBrushed);
+    this.armController = new CANSparkMax(ARM_CAN_ID, MotorType.kBrushed);
   }
 
-  public void actuate(){
+  public void actuate() {
     this.doubleSolenoid.toggle();
+  }
+
+  public void turnOnArm() {
+    this.armController.set(1);
+  }
+
+  public void turnOnHatchSpinner() {
+    this.hatchSpinnerController.set(1);
   }
 
   @Override
