@@ -24,9 +24,9 @@ public class Drive {
   private final int LEFT_MIDDLE_CAN_ID = 5;
   private final int LEFT_FRONT_CAN_ID = 6;
   //right gear box CAN ids
-  private final int RIGHT_BACK_CAN_ID = 11;
-  private final int RIGHT_MIDDLE_CAN_ID = 12;
-  private final int RIGHT_FRONT_CAN_ID = 13;
+  private final int RIGHT_BACK_CAN_ID = 7;
+  private final int RIGHT_MIDDLE_CAN_ID = 8;
+  private final int RIGHT_FRONT_CAN_ID = 9;
 
   private MotorType DRIVE_MOTOR_TYPE = MotorType.kBrushless;
 
@@ -71,11 +71,8 @@ public class Drive {
   }
 
   public void arcadeDrive(double leftY, double rightX) {
-    /*double error = (leftGearbox.getVelocity()-rightGearbox.getVelocity()) - rightX;
-    double turnPower = error * rightX + kI;
-    setLeftSpeed(-(leftY - turnPower(rightX)));
-    setRightSpeed(leftY + turnPower(rightX)));*/
-    setLeftSpeed(-(leftY - getTurnPower(rightX)));
-    setRightSpeed(leftY + getTurnPower(rightX));
+    setLeftSpeed(leftY);
+    setRightSpeed(-(leftY));
+
     }
 }
