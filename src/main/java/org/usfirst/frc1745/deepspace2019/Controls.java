@@ -32,21 +32,15 @@ public class Controls {
         double y = joystick.getRawAxis(LEFT_Y);
         if(Math.abs(y) < deadzone) {
             return 0.0;
-        } else if(y > 0) {
-                return y - deadzone;
-        } else {
-            return y + deadzone;
-        }
+        } 
+        return y;
     }
 
     public double getRightY(double deadzone) {
         double y = joystick.getRawAxis(RIGHT_Y);
         if(Math.abs(y) < deadzone) {
             return 0.0;
-        } else if(y > 0) {
-                return y - deadzone;
-        } else {
-            return y + deadzone;
-        }
+        } 
+        return y;
     }
 }

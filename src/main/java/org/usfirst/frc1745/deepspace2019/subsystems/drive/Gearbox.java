@@ -46,19 +46,6 @@ public class Gearbox {
     this.frontController.set(rate);
   }
 
-  // public boolean setRampRate(double rampRate) {
-  //   if (rampRate > this.frontController.getRampRate()) {
-  //     return false;
-  //   }
-  //   CANError frontRampRate = this.frontController.setRampRate(rampRate);
-  //   // TODO - log error status
-  //   CANError middleRampRate = this.middleController.setRampRate(rampRate);
-  //   // TODO - log error status
-  //   CANError backRampRate = this.backController.setRampRate(rampRate);
-
-  //   return (frontRampRate == CANError.kOK && middleRampRate == CANError.kOK && backRampRate == CANError.kOK);
-  // }
-
   public CANSparkMax getBackController() {
     return this.backController;
   }

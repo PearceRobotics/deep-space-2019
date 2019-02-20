@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
     private RotationController rotationController;
     private final int JOYSTICK_PORT = 0;
 
-    private final double DEADZONE = 0;
+    private final double DEADZONE = 0.1;
 
     private boolean rightBumperPressed = false;
 
@@ -132,8 +132,8 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
 
-        drive.setLeftSpeed(-controls.getLeftY(DEADZONE) * .75);
-        drive.setRightSpeed(controls.getRightY(DEADZONE) * .75);
+        drive.setLeftSpeed(-controls.getLeftY(DEADZONE));
+        drive.setRightSpeed(controls.getRightY(DEADZONE));
 
         //Gets limelight network table
         NetworkTable limelightNetworkTable = NetworkOperations.getNetworkTable("limelight");
