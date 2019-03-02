@@ -11,6 +11,7 @@
 package org.usfirst.frc1745.deepspace2019;
 
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -77,6 +78,8 @@ public class Robot extends TimedRobot {
         this.limelight = new Limelight();
         this.controls = new Controls(new Joystick(JOYSTICK_PORT));
         this.networkOperations = new NetworkOperations();
+        Compressor compressor = new Compressor();
+        compressor.clearAllPCMStickyFaults();
     }
 
     /**
@@ -126,17 +129,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-<<<<<<< HEAD
-
-        drive.setLeftSpeed(-controls.getLeftY(DEADZONE));
-        drive.setRightSpeed(controls.getRightY(DEADZONE));
-
-        this.manipulator.turnOnArm();
-        this.manipulator.turnOnHatchSpinner();
-
-=======
         drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE));
->>>>>>> master
         //Sets network table for limelight
         NetworkTable limelightNetworkTable = NetworkOperations.getNetworkTable("limelight");
         double[] calculatedDeltas = limelight.calcSpeed(limelightNetworkTable);
@@ -144,10 +137,16 @@ public class Robot extends TimedRobot {
         getSetLimelightValues(calculatedDeltas, limelightNetworkTable);
 
         // Go to the target
-        boolean bPressed = controls.getBButton();
-        if (bPressed) {
+        if (controls.getBButton()) {
             drive.setRightSpeed(calculatedDeltas[1]);
             drive.setLeftSpeed(calculatedDeltas[0]);
+        }
+        if (controls.getLeftBumper()) {
+            manipulator.deployArm();
+        }
+        
+        if(controls.getLeftTrigger()) {
+            manipulator.retractArm();
         }
     }
 
