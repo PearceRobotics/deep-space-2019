@@ -43,11 +43,16 @@ public class Drive extends Subsystem {
   }
 
   public void setLeftSpeed(double speed) {
-    leftGearbox.setSpeed(speed);
+    this.leftGearbox.setSpeed(speed);
   }
 
   public void setRightSpeed(double speed) {
-    rightGearbox.setSpeed(speed);
+    this.rightGearbox.setSpeed(speed);
+  }
+
+  public void arcadeDrive(double staightSpeed, double turnModifer) {
+    this.setLeftSpeed(-(staightSpeed - turnModifer));
+    this.setRightSpeed(staightSpeed + turnModifer);
   }
 
 
