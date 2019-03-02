@@ -8,7 +8,6 @@
 package org.usfirst.frc1745.deepspace2019;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
