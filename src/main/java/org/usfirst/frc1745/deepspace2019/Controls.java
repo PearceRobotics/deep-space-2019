@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class Controls {
     private Joystick joystick;
     private final int LEFT_Y = 1;
+    private final int RIGHT_X = 4;
     private final int RIGHT_Y = 5;
     private final int RIGHT_TOP_BUMPER_ID = 6;
     private final int B_BUTTON = 2;
@@ -46,5 +47,13 @@ public class Controls {
 
     public JoystickButton getRightTopBumper() {
         return new JoystickButton(joystick, RIGHT_TOP_BUMPER_ID);
+    }
+    
+    public double getRightX(double deadzone) {
+        double x = joystick.getRawAxis(RIGHT_X);
+        if(Math.abs(x) < deadzone) {
+            return 0.0;
+        } 
+        return x;
     }
 }
