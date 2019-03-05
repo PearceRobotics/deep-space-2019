@@ -7,14 +7,8 @@
 
 package org.usfirst.frc1745.deepspace2019.subsystems.manipulator;
 
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.ControlType;
-
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-
 
 public class ArmPidController {
 

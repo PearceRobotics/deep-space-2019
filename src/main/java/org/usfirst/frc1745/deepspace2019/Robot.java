@@ -129,7 +129,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE));
         //Sets network table for limelight
         NetworkTable limelightNetworkTable = NetworkOperations.getNetworkTable("limelight");
         double[] calculatedDeltas = limelight.calcSpeed(limelightNetworkTable);
@@ -138,9 +137,13 @@ public class Robot extends TimedRobot {
 
         // Go to the target
         if (controls.getBButton()) {
-            drive.setRightSpeed(calculatedDeltas[1]);
+            System.out.println(calculatedDeltas[0] + " " + calculatedDeltas[1]);
+            drive.setRightSpeed(calculatedDeltas[1]); 
             drive.setLeftSpeed(calculatedDeltas[0]);
+        } else {
+            drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE));
         }
+        
         if (controls.getLeftBumper()) {
             manipulator.deployArm();
         }
