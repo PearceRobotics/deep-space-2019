@@ -49,6 +49,10 @@ public class Manipulator extends Subsystem {
     this.armPidController.retract();
   }
 
+  public void spinHatch(double power) {
+    this.hatchSpinnerController.set(power);
+  }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

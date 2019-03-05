@@ -141,11 +141,15 @@ public class Robot extends TimedRobot {
             drive.setRightSpeed(calculatedDeltas[1]); 
             drive.setLeftSpeed(calculatedDeltas[0]);
         } else {
-            drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE));
+            drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE)*.40);
         }
         
         if (controls.getLeftBumper()) {
-            manipulator.deployArm();
+            manipulator.spinHatch(.3);
+        } else if(controls.getRightBumper()) {
+            manipulator.spinHatch(-.3);
+        } else {
+            manipulator.spinHatch(0);
         }
         
         if(controls.getLeftTrigger()) {

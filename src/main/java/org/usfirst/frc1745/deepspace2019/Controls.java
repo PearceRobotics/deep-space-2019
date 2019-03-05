@@ -57,12 +57,12 @@ public class Controls {
         return y;
     }
 
-    public JoystickButton getRightBumper() {
-        return new JoystickButton(joystick, RIGHT_BUMPER_ID);
+    public boolean getRightBumper() {
+        return joystick.getRawButton(RIGHT_BUMPER_ID);
     }
 
-    public boolean getRightTrigger() {
-        return joystick.getRawButton(RIGHT_TRIGGER_ID);
+    public JoystickButton getRightTrigger() {
+        return new JoystickButton(joystick, RIGHT_TRIGGER_ID);
     }
 
     public boolean getLeftBumper() {
