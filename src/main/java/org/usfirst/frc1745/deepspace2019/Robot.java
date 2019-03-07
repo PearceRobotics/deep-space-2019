@@ -135,9 +135,6 @@ public class Robot extends TimedRobot {
 
         getSetLimelightValues(calculatedDeltas, limelightNetworkTable);
 
-        if (controls.getLeftTrigger()){
-            System.out.println("Hello");
-        }
         // Go to the target
         if (controls.getBButton()) {
             System.out.println(calculatedDeltas[0] + " " + calculatedDeltas[1]);
@@ -148,14 +145,13 @@ public class Robot extends TimedRobot {
         }
         //Deploy Code
         if (controls.getLeftBumper()) {
-            manipulator.spinHatch(.3);
-            manipulator.actuate();
-        } else if(controls.getRightBumper()) {
             manipulator.spinHatch(-.3);
-            
+        } else if(controls.getRightBumper()) {
+            manipulator.spinHatch(.3);
         } else {
             manipulator.spinHatch(0);
         }
+        
         
         /*if(controls.getLeftTrigger()) {
             manipulator.retractArm();
