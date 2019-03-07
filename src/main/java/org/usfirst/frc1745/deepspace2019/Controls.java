@@ -40,7 +40,7 @@ public class Controls {
         } 
         return x;
     }
-
+    
     public double getLeftY(double deadzone) {
         double y = joystick.getRawAxis(LEFT_Y);
         if(Math.abs(y) < deadzone) {
@@ -59,6 +59,10 @@ public class Controls {
 
     public boolean getRightBumper() {
         return joystick.getRawButton(RIGHT_BUMPER_ID);
+    }
+
+    public JoystickButton getRightJoystickBumper(){
+        return new JoystickButton(joystick, RIGHT_BUMPER_ID);
     }
 
     public JoystickButton getRightTrigger() {
