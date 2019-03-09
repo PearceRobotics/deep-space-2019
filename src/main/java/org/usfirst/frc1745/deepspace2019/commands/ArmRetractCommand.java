@@ -11,11 +11,11 @@ import org.usfirst.frc1745.deepspace2019.subsystems.manipulator.Manipulator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ActuateManipulatorCommand extends Command {
+public class ArmRetractCommand extends Command {
 
   private Manipulator manipulator;
 
-  public ActuateManipulatorCommand(Manipulator manipulator) {
+  public ArmRetractCommand(Manipulator manipulator) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     this.manipulator = manipulator;
@@ -30,13 +30,12 @@ public class ActuateManipulatorCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    this.manipulator.actuate();
+    this.manipulator.retractArm();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    this.manipulator.actuate();
     return true;
   }
 

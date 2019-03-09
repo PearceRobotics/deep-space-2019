@@ -23,14 +23,24 @@ public class Controls {
     private final int LEFT_BUMPER_ID = 5;
     private final int LEFT_TRIGGER_ID = 2;
 
-    private final int B_BUTTON = 2;
+    private final int B_BUTTON_ID = 2;
+    private final int Y_BUTTON_ID = 1;
+    private final int A_BUTTON_ID = 4;
 
     public Controls(Joystick joystick) {
         this.joystick = joystick;
     }
     
     public boolean getBButton() {
-        return joystick.getRawButton(B_BUTTON);
+        return joystick.getRawButton(B_BUTTON_ID);
+    }
+
+    public JoystickButton getYJoystickButton(){
+        return new JoystickButton(joystick, Y_BUTTON_ID);
+    }
+
+    public JoystickButton getAJoystickButton(){
+        return new JoystickButton(joystick, A_BUTTON_ID);
     }
 
     public double getRightX(double deadzone) {
