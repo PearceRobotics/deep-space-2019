@@ -15,7 +15,7 @@ public class ArmPidController {
   private CANPIDController turnController;
 
   //TODO: Make final once tuned
-  private static double kP = 0.01;
+  private static double kP = 0.04;
   private static double kI = 0.0;
   private static double kD = 0.0;
   private static double kF = 0.0;

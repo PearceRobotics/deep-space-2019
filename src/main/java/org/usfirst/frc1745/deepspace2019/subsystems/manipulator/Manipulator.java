@@ -9,6 +9,7 @@ package org.usfirst.frc1745.deepspace2019.subsystems.manipulator;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -34,6 +35,9 @@ public class Manipulator extends Subsystem {
     this.doubleSolenoid = new DoubleSolenoidActuator(new DoubleSolenoid(DOUBLESOLENOID_FORWARD_PORT_ID, DOUBLESOLENOID_REVERSE_PORT_ID));
     this.hatchSpinnerController = new CANSparkMax(HATCH_SPINNER_CAN_ID, MotorType.kBrushed);
     this.armController = new CANSparkMax(ARM_CAN_ID, MotorType.kBrushless);
+    this.armController.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 5);
+    this.armController.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 5);
+    this.armController.enableVoltageCompensation(12.0);
     this.armPidController = new ArmPidController(armController.getPIDController());
   }
 
@@ -51,6 +55,10 @@ public class Manipulator extends Subsystem {
 
   public void spinHatch(double power) {
     this.hatchSpinnerController.set(power);
+  }
+
+  public void runArm(double power) {
+    this.armController.set(power);
   }
 
   @Override

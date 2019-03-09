@@ -137,12 +137,13 @@ public class Robot extends TimedRobot {
 
         // Go to the target
         if (controls.getBButton()) {
-            System.out.println(calculatedDeltas[0] + " " + calculatedDeltas[1]);
-            drive.setRightSpeed(calculatedDeltas[1]); 
+            drive.setRightSpeed(calculatedDeltas[1]);
             drive.setLeftSpeed(calculatedDeltas[0]);
-        } else {
+        } /*else {
             drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE)*.40);
-        }
+        }*/
+
+
         //Deploy Code
         if (controls.getLeftBumper()) {
             manipulator.spinHatch(-.3);
@@ -152,10 +153,15 @@ public class Robot extends TimedRobot {
             manipulator.spinHatch(0);
         }
         
+        manipulator.runArm(controls.getRightY(0));
         
-        /*if(controls.getLeftTrigger()) {
+        if(controls.getLeftTrigger()>0) {
             manipulator.retractArm();
-        }*/
+        }
+
+        if(controls.getRightTrigger()>0){
+            manipulator.deployArm();
+        }
     }
 
     private void getSetLimelightValues(double[] calculatedDeltas, NetworkTable limelightNetworkTable){
