@@ -139,10 +139,9 @@ public class Robot extends TimedRobot {
         if (controls.getBButton()) {
             drive.setRightSpeed(calculatedDeltas[1]);
             drive.setLeftSpeed(calculatedDeltas[0]);
-        } /*else {
+        } else {
             drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE)*.40);
-        }*/
-
+        }
 
         //Deploy Code
         if (controls.getLeftBumper()) {
@@ -152,8 +151,6 @@ public class Robot extends TimedRobot {
         } else {
             manipulator.spinHatch(0);
         }
-        
-        manipulator.runArm(controls.getRightY(0));
         
         if(controls.getLeftTrigger()) {
             manipulator.retractArm();
