@@ -46,10 +46,12 @@ public class Manipulator extends Subsystem {
   }
 
   public void deployArm() {
+    resetArm();
     this.armPidController.deploy();
   }
 
   public void retractArm() {
+    resetArm();
     this.armPidController.retract();
   }
 
@@ -59,6 +61,10 @@ public class Manipulator extends Subsystem {
 
   public void runArm(double power) {
     this.armController.set(power);
+  }
+
+  private void resetArm(){
+    this.armController.setEncPosition(0);
   }
 
   @Override

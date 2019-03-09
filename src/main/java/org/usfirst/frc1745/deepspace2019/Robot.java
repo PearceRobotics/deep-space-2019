@@ -155,11 +155,11 @@ public class Robot extends TimedRobot {
         
         manipulator.runArm(controls.getRightY(0));
         
-        if(controls.getLeftTrigger()>0) {
+        if(controls.getLeftTrigger()) {
             manipulator.retractArm();
         }
 
-        if(controls.getRightTrigger()>0){
+        if(controls.getRightTrigger()){
             manipulator.deployArm();
         }
     }

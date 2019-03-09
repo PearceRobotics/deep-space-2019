@@ -65,18 +65,15 @@ public class Controls {
         return new JoystickButton(joystick, RIGHT_BUMPER_ID);
     }
 
-    public double getRightTrigger() {
-        return joystick.getRawAxis(RIGHT_TRIGGER_ID);
+    public boolean getRightTrigger() {
+        return joystick.getRawAxis(RIGHT_TRIGGER_ID) > 0;
     }
 
     public boolean getLeftBumper() {
         return joystick.getRawButton(LEFT_BUMPER_ID);
     }
-    public JoystickButton getLeftJoystickBumper(){
-        return new JoystickButton(joystick, LEFT_BUMPER_ID);
-    }
 
-    public double getLeftTrigger() {
-        return joystick.getRawAxis(LEFT_TRIGGER_ID);
+    public boolean getLeftTrigger() {
+        return joystick.getRawAxis(LEFT_TRIGGER_ID) > 0;
     }
 }
