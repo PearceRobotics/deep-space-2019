@@ -27,7 +27,7 @@ public class NetworkOperations {
     }
 
     public static NetworkTable getNetworkTable(String networkTableName) {
-        return networkTable.getTable(networkTableName);
+        return networkTable.getDefault().getTable(networkTableName);
     }
 
     public static double getPreferencesDouble(String label) {
