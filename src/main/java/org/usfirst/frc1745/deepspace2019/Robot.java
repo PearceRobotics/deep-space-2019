@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 
     private final int JOYSTICK_PORT = 0;
 
-    private final double DEADZONE = 0.1;
+    private final double DEADZONE = 0.05;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -130,17 +130,17 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         //Sets network table for limelight
-        NetworkTable limelightNetworkTable = NetworkOperations.getNetworkTable("limelight");
+        NetworkTable limelightNetworkTable = this.networkOperations.getNetworkTable("limelight");
         double[] calculatedDeltas = limelight.calcSpeed(limelightNetworkTable);
 
         getSetLimelightValues(calculatedDeltas, limelightNetworkTable);
 
         // Go to the target
         if (controls.getBButton()) {
-            drive.setRightSpeed(calculatedDeltas[1]);
-            drive.setLeftSpeed(calculatedDeltas[0]);
+            drive.setRightSpeed(calculatedDeltas[0]);
+            drive.setLeftSpeed(calculatedDeltas[1]);
         } else {
-            drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE)*.40);
+            drive.arcadeDrive(controls.getLeftY(DEADZONE)*.75, controls.getRightX(DEADZONE)*.50);
         }
 
         //Deploy Code
