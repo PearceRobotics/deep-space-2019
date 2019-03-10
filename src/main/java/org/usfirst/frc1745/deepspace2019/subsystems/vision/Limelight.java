@@ -15,16 +15,13 @@ import edu.wpi.first.networktables.NetworkTable;
 public class Limelight {
   
   // Constants to be adjusted for calculations
-  private double kpAim = -0.015;
+  private double kpAim = -0.002;
   private double kpDistance = -0.045;
   private double minAimCommand = 0;
   private double deadband = 1.5;
 
   // Uses NetworkTable values to calculate speed
-  public double[] calcSpeed(NetworkTable table) {
-
-    double tx = table.getEntry("tx").getDouble(0.0);
-    double ty = table.getEntry("ty").getDouble(0.0);
+  public double[] calcSpeed(double tx, double ty) {
 
     double headingError = -tx;
     double distanceError = -ty;
