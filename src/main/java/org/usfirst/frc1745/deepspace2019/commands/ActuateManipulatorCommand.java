@@ -14,11 +14,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ActuateManipulatorCommand extends Command {
 
   private Manipulator manipulator;
+  private boolean isExtended;
 
   public ActuateManipulatorCommand(Manipulator manipulator) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     this.manipulator = manipulator;
+    this.isExtended = false;
+    setTimeout(.5);
     requires(this.manipulator);
   }
 
@@ -30,19 +33,26 @@ public class ActuateManipulatorCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    this.manipulator.actuate();
+    if (!isExtended){
+      this.manipulator.actuate();
+      this.isExtended = true;
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    //this.manipulator.actuate();
-    return true;
+    if(isTimedOut()) {
+      return true;
+    }
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    this.isExtended = false;
+    this.manipulator.actuate();
   }
 
   // Called when another command which requires one or more of the same
