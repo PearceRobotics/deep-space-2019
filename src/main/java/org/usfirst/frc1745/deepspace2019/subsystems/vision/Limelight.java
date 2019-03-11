@@ -32,7 +32,6 @@ public class Limelight {
   // Constants to be adjusted for calculations
   private double kpAim = 0.015;
   private double kpDistance = 0.045;
-  private double desiredTargetArea = 13.0;
   private final double DEADBAND_DEGREES = 2;
 
   // Uses NetworkTable values to calculate speed
