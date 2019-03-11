@@ -7,78 +7,55 @@
 
 package org.usfirst.frc1745.deepspace2019.subsystems.vision;
 
-import edu.wpi.first.networktables.NetworkTable;
+import org.usfirst.frc1745.deepspace2019.NetworkOperations;
+import org.usfirst.frc1745.deepspace2019.subsystems.drive.DrivingDeltas;
 
-/**
- * Add your docs here.
- */
 public class Limelight {
+  /*
+   * Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
+   */
+  private double horizontalTargetOffset = NetworkOperations.getNetworkTable("limelight").getEntry("tx").getDouble(0.0);
+  /*
+   * Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
+   */
+  private double verticalTargetOffset = NetworkOperations.getNetworkTable("limelight").getEntry("ty").getDouble(0.0);
+  /*
+   * Target Area (0% of image to 100% of image)
+   */
+  private double targetArea = NetworkOperations.getNetworkTable("limelight").getEntry("ty").getDouble(0.0);
+  /*
+   * Whether the limelight has any valid targets (0 or 1)
+   */
+  private boolean hasValidTargets = NetworkOperations.getNetworkTable("limelight").getEntry("ty").getDouble(0.0) < 1;
+  
   
   // Constants to be adjusted for calculations
-  private double kpAim = -0.002;
-  private double kpDistance = -0.045;
-  private double minAimCommand = 0;
-  private double deadband = 1.5;
+  private double kpAim = 0.015;
+  private double kpDistance = 0.045;
+  private double desiredTargetArea = 13.0;
+  private final double DEADBAND_DEGREES = 2;
 
   // Uses NetworkTable values to calculate speed
-  public double[] calcSpeed(double tx, double ty) {
+  public DrivingDeltas calculateDeltas() {
+    double steeringAdjust = 0;
+    double distanceAdjust = 0;
 
-    double headingError = -tx;
-    double distanceError = -ty;
-    double steeringAdjust = 0.0f;
+    if(hasValidTargets) {
+      if(horizontalTargetOffset < DEADBAND_DEGREES) {
+        horizontalTargetOffset = 0;
+      }
 
-    if (tx > deadband) {
-      steeringAdjust = (kpAim * headingError) - minAimCommand;
-    } else if (tx < -deadband) {
-      steeringAdjust = (kpAim * headingError) + minAimCommand;
+      if(verticalTargetOffset < DEADBAND_DEGREES) {
+        verticalTargetOffset = 0;
+      }
+      
+      steeringAdjust = kpAim * horizontalTargetOffset;
+      distanceAdjust = kpDistance * verticalTargetOffset;
     }
-
-    double distanceAdjust = kpDistance * distanceError;
-
-    double leftDelta = (-distanceAdjust + steeringAdjust);
-    double rightDelta = (distanceAdjust + steeringAdjust);
-
-    // Sets left and right delta values in an array
-    return new double[] { leftDelta, rightDelta, steeringAdjust };
+    return new DrivingDeltas(distanceAdjust, steeringAdjust);
   }
 
-  // Getters and setters
-  // Aim Constant
-  public double getKpAim() {
-    return this.kpAim;
-  }
-
-  public double setKpAim(double kpAim) {
-    this.kpAim = kpAim;
-    return this.kpAim;
-  }
-
-  // Distance Contants
-  public double getKpDistance() {
-    return this.kpDistance;
-  }
-
-  public double setKpDistance(double kpDistance) {
-    this.kpDistance = kpDistance;
-    return this.kpDistance;
-  }
-
-  // Minimum Aim Constant
-  public double getMinAimCommand() {
-    return this.minAimCommand;
-  }
-
-  public double setMinAimCommand(double minAimCommand) {
-    this.minAimCommand = minAimCommand;
-    return this.minAimCommand;
-  }
-  
-  public double getDeadband() {
-    return this.deadband;
-  }
-
-  public double setDeadband(double deadband) {
-    this.deadband = deadband;
-    return this.deadband;
+  public boolean hasValidTargets() {
+    return hasValidTargets;
   }
 }

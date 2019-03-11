@@ -55,6 +55,10 @@ public class Drive extends Subsystem {
     this.setRightSpeed(staightSpeed + turnModifer);
   }
 
+  public void arcadeDrive(DrivingDeltas drivingDeltas) {
+    arcadeDrive(drivingDeltas.getForwardPower(), drivingDeltas.getSteeringPower());
+  }
+
 
   @Override
   public void initDefaultCommand() {

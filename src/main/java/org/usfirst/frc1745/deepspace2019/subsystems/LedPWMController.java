@@ -7,26 +7,33 @@
 
 package org.usfirst.frc1745.deepspace2019.subsystems;
 
-import edu.wpi.first.wpilibj.PWM;
+import edu.wpi.first.wpilibj.Spark;
 
 /**
  * Add your docs here.
  */
 public class LedPWMController {
-    private PWM pwm;
-    
-    private final int GREEN_PULSE_WIDTH = 1865;
-    private final int PARTY_PULSE_WIDTH = 1015;
+    private Spark blinkin;
 
     public LedPWMController(int channel) {
-        this.pwm = new PWM(channel);
+        this.blinkin = new Spark(0);
     }
 
-    public void setGreenColor() {
-        this.pwm.setRaw(GREEN_PULSE_WIDTH);
+    public void setColor(BlinkinColors color) {
+       this.blinkin.set(color.getValue());
     }
 
-    public void setPartyMode() {
-        this.pwm.setRaw(PARTY_PULSE_WIDTH);
+    public enum BlinkinColors {
+        LIME(0.73),
+        PARTY(-0.97);
+        private double value;
+    
+        BlinkinColors(double value) {
+            this.value = value;
+        }
+    
+        public double getValue() {
+            return this.value;
+        }
     }
 }

@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc1745.deepspace2019.subsystems.LedPWMController;
 import org.usfirst.frc1745.deepspace2019.subsystems.drive.Drive;
+import org.usfirst.frc1745.deepspace2019.subsystems.drive.DrivingDeltas;
 import org.usfirst.frc1745.deepspace2019.subsystems.manipulator.Manipulator;
 import org.usfirst.frc1745.deepspace2019.subsystems.vision.Limelight;
 import org.usfirst.frc1745.deepspace2019.subsystems.vision.Vision;
@@ -48,12 +49,11 @@ public class Robot extends TimedRobot {
     private Controls controls;
     private Drive drive;
     private Manipulator manipulator; 
-    private NetworkOperations networkOperations;
-    private LedPWMController ledPWMController;
-
-    private Vision vision;
-
     private Limelight limelight;
+    private LedPWMController ledPWMController;
+    private Vision vision;
+    
+    private static NetworkOperations networkOperations = new NetworkOperations();
 
     private final int JOYSTICK_PORT = 0;
     private final int LED_PWM_PORT = 0;
@@ -86,10 +86,9 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto mode", chooser);
         this.drive = new Drive();
         this.controls = new Controls(new Joystick(JOYSTICK_PORT));
-        this.networkOperations = new NetworkOperations();
         this.ledPWMController = new LedPWMController(LED_PWM_PORT);
         this.limelight = new Limelight();
-        this.vision = new Vision(limelight, LEFT_ULTRASONIC_PORT, RIGHT_ULTRASONIC_PORT, ledPWMController, this.networkOperations.getNetworkTable("limelight"));
+        this.vision = new Vision(limelight, LEFT_ULTRASONIC_PORT, RIGHT_ULTRASONIC_PORT, ledPWMController);
         Compressor compressor = new Compressor();
         compressor.clearAllPCMStickyFaults();
     }
@@ -141,15 +140,11 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        //Sets network table for limelight
-
-        getSetLimelightValues(networkOperations.getNetworkTable("limelight"));
-        double[] calculatedDeltas = vision.targetDelta();
+        DrivingDeltas calculatedDeltas = vision.targetDelta();
 
         // Go to the target
         if (controls.getBButton()) {
-            drive.setRightSpeed(calculatedDeltas[0]);
-            drive.setLeftSpeed(calculatedDeltas[1]);
+            drive.arcadeDrive(calculatedDeltas.getForwardPower(), calculatedDeltas.getSteeringPower());
         } else {
             drive.arcadeDrive(controls.getLeftY(DEADZONE)*.75, controls.getRightX(DEADZONE)*.50);
         }
@@ -172,26 +167,5 @@ public class Robot extends TimedRobot {
         if(controls.getRightTrigger()){
             manipulator.deployArm();
         }
-
-        System.out.println(calculatedDeltas[0] + " " + calculatedDeltas[1]);
-    }
-
-    private void getSetLimelightValues( NetworkTable limelightNetworkTable){
-        // Send all data to the dashboard
-       // NetworkOperations.setSmartDBNumVar("Left Delta: ", calculatedDeltas[0]);
-        //NetworkOperations.setSmartDBNumVar("Right Delta ", calculatedDeltas[1]);
-        //NetworkOperations.setSmartDBNumVar("Steering Adjust:", calculatedDeltas[2]);
-        NetworkOperations.setSmartDBNumVar("Minimum Aim Constant: ", limelight.getMinAimCommand());
-        NetworkOperations.setSmartDBNumVar("Distance Constant: ", limelight.getKpDistance());
-        NetworkOperations.setSmartDBNumVar("Aim Constant: ", limelight.getKpAim());
-        NetworkOperations.setSmartDBNumVar("Tx Value:", limelightNetworkTable.getEntry("tx").getDouble(0.0));
-        NetworkOperations.setSmartDBNumVar("Ty Value:", limelightNetworkTable.getEntry("ty").getDouble(0.0));
-        NetworkOperations.setSmartDBNumVar("Deadband", limelight.getDeadband());
-
-        // Set constants
-        limelight.setKpAim(NetworkOperations.getPreferencesDouble("KpAimConstant"));
-        limelight.setKpDistance(NetworkOperations.getPreferencesDouble("KpDistanceConstant"));
-        limelight.setMinAimCommand(NetworkOperations.getPreferencesDouble("MinAimCommand"));
-        limelight.setDeadband(NetworkOperations.getPreferencesDouble("Deadband"));
     }
 }
