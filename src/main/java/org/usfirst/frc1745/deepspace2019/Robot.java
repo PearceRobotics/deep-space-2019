@@ -10,7 +10,6 @@
 
 package org.usfirst.frc1745.deepspace2019;
 
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
