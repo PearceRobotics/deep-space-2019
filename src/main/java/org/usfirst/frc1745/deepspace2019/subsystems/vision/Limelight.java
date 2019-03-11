@@ -40,16 +40,13 @@ public class Limelight {
     double distanceAdjust = 0;
 
     if(hasValidTargets) {
-      if(horizontalTargetOffset < DEADBAND_DEGREES) {
-        horizontalTargetOffset = 0;
+      if(Math.abs(horizontalTargetOffset) > DEADBAND_DEGREES) {
+        steeringAdjust = kpAim * horizontalTargetOffset;
       }
 
-      if(verticalTargetOffset < DEADBAND_DEGREES) {
-        verticalTargetOffset = 0;
+      if(Math.abs(verticalTargetOffset) > DEADBAND_DEGREES) {
+        distanceAdjust = kpDistance * verticalTargetOffset;
       }
-      
-      steeringAdjust = kpAim * horizontalTargetOffset;
-      distanceAdjust = kpDistance * verticalTargetOffset;
     }
     return new DrivingDeltas(distanceAdjust, steeringAdjust);
   }
