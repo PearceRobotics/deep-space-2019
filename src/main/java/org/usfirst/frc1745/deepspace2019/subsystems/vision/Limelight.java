@@ -54,4 +54,20 @@ public class Limelight {
   public boolean hasValidTargets() {
     return hasValidTargets;
   }
+
+  public double getKpAim() {
+    return this.kpAim;
+  }
+
+  public void setKpAim(double kpAim) {
+    this.kpAim = kpAim;
+  }
+
+  public double getKpDistance() {
+    return this.kpDistance;
+  }
+
+  public void setKpDistance(double kpDistance) {
+    this.kpDistance = kpDistance;
+  }
 }
