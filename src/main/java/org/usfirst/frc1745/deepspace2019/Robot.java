@@ -21,10 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc1745.deepspace2019.subsystems.LedPWMController;
 import org.usfirst.frc1745.deepspace2019.subsystems.drive.Drive;
-<<<<<<< HEAD
 import org.usfirst.frc1745.deepspace2019.subsystems.drive.DrivingDeltas;
-=======
->>>>>>> master
 import org.usfirst.frc1745.deepspace2019.subsystems.manipulator.Manipulator;
 import org.usfirst.frc1745.deepspace2019.subsystems.vision.Limelight;
 import org.usfirst.frc1745.deepspace2019.subsystems.vision.Vision;
@@ -59,13 +56,9 @@ public class Robot extends TimedRobot {
     private static NetworkOperations networkOperations = new NetworkOperations();
 
     private final int JOYSTICK_PORT = 0;
-<<<<<<< HEAD
     private final int LED_PWM_PORT = 0;
     private final int LEFT_ULTRASONIC_PORT = 0;
     private final int RIGHT_ULTRASONIC_PORT = 1;
-=======
-
->>>>>>> master
     private final double DEADZONE = 0.05;
 
     /**
@@ -93,13 +86,9 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto mode", chooser);
         this.drive = new Drive();
         this.controls = new Controls(new Joystick(JOYSTICK_PORT));
-<<<<<<< HEAD
         this.ledPWMController = new LedPWMController(LED_PWM_PORT);
         this.limelight = new Limelight();
         this.vision = new Vision(limelight, LEFT_ULTRASONIC_PORT, RIGHT_ULTRASONIC_PORT, ledPWMController);
-=======
-        this.networkOperations = new NetworkOperations();
->>>>>>> master
         Compressor compressor = new Compressor();
         compressor.clearAllPCMStickyFaults();
     }
@@ -151,24 +140,11 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-<<<<<<< HEAD
         DrivingDeltas calculatedDeltas = vision.targetDelta();
 
         // Go to the target
         if (controls.getBButton()) {
             drive.arcadeDrive(calculatedDeltas.getForwardPower(), calculatedDeltas.getSteeringPower());
-=======
-        //Sets network table for limelight
-        NetworkTable limelightNetworkTable = this.networkOperations.getNetworkTable("limelight");
-        double[] calculatedDeltas = limelight.calcSpeed(limelightNetworkTable);
-
-        getSetLimelightValues(calculatedDeltas, limelightNetworkTable);
-
-        // Go to the target
-        if (controls.getBButton()) {
-            drive.setRightSpeed(calculatedDeltas[0]);
-            drive.setLeftSpeed(calculatedDeltas[1]);
->>>>>>> master
         } else {
             drive.arcadeDrive(controls.getLeftY(DEADZONE)*.75, controls.getRightX(DEADZONE)*.50);
         }
@@ -182,17 +158,8 @@ public class Robot extends TimedRobot {
             manipulator.spinHatch(0);
         }
         
-        //manipulator.runArm(controls.getRightY(0.1));
-
         if(controls.getLeftTrigger()) {
             manipulator.retractArm();
-<<<<<<< HEAD
-=======
-        }
-
-        if(controls.getRightTrigger()){
-            manipulator.deployArm();
->>>>>>> master
         }
 
         if(controls.getRightTrigger()){
