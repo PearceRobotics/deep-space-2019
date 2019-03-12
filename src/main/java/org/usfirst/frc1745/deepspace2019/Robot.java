@@ -51,9 +51,6 @@ public class Robot extends TimedRobot {
     private Limelight limelight;
     private LedPWMController ledPWMController;
     private Vision vision;
-    
-    private static NetworkOperations networkOperations = new NetworkOperations();
-
     private final int JOYSTICK_PORT = 0;
     private final int LED_PWM_PORT = 0;
     private final int LEFT_ULTRASONIC_PORT = 0;
@@ -145,7 +142,7 @@ public class Robot extends TimedRobot {
         if (controls.getBButton()) {
             drive.arcadeDrive(calculatedDeltas.getForwardPower(), calculatedDeltas.getSteeringPower());
         } else {
-            drive.arcadeDrive(controls.getLeftY(DEADZONE)*.75, controls.getRightX(DEADZONE)*.50);
+            drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE) * 0.75);
         }
 
         //Deploy Code
@@ -165,4 +162,5 @@ public class Robot extends TimedRobot {
             manipulator.deployArm();
         }
     }
+
 }

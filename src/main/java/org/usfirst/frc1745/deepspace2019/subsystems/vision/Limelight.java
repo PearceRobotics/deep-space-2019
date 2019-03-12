@@ -1,67 +1,55 @@
 
 package org.usfirst.frc1745.deepspace2019.subsystems.vision;
 
-import org.usfirst.frc1745.deepspace2019.NetworkOperations;
 import org.usfirst.frc1745.deepspace2019.subsystems.drive.DrivingDeltas;
 
-public class Limelight {
-  /*
-   * Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
-   */
-  private double horizontalTargetOffset = NetworkOperations.getNetworkTable("limelight").getEntry("tx").getDouble(0.0);
-  /*
-   * Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
-   */
-  private double verticalTargetOffset = NetworkOperations.getNetworkTable("limelight").getEntry("ty").getDouble(0.0);
-  /*
-   * Target Area (0% of image to 100% of image)
-   */
-  private double targetArea = NetworkOperations.getNetworkTable("limelight").getEntry("ty").getDouble(0.0);
-  /*
-   * Whether the limelight has any valid targets (0 or 1)
-   */
-  private boolean hasValidTargets = NetworkOperations.getNetworkTable("limelight").getEntry("ty").getDouble(0.0) < 1;
-  
-  
-  // Constants to be adjusted for calculations
-  private double kpAim = 0.015;
-  private double kpDistance = 0.045;
-  private final double DEADBAND_DEGREES = 2;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
-  // Uses NetworkTable values to calculate speed
+public class Limelight {
+  private final double KpAIM = 0.005;
+  private final double KpDISTANCE = 0.045;
+  private final double DEADBAND_DEGREES = 0;
+
   public DrivingDeltas calculateDeltas() {
     double steeringAdjust = 0;
     double distanceAdjust = 0;
-
-    if(hasValidTargets) {
-      if(Math.abs(horizontalTargetOffset) > DEADBAND_DEGREES) {
-        steeringAdjust = kpAim * horizontalTargetOffset;
+    if(hasValidTarget()) {
+      if(Math.abs(getHorizontalTargetOffset()) > DEADBAND_DEGREES) {
+        steeringAdjust = KpAIM * getHorizontalTargetOffset();
       }
 
-      if(Math.abs(verticalTargetOffset) > DEADBAND_DEGREES) {
-        distanceAdjust = kpDistance * verticalTargetOffset;
+      if(Math.abs(getVerticalTargetOffset()) > DEADBAND_DEGREES) {
+        distanceAdjust = KpDISTANCE * getVerticalTargetOffset();
       }
     }
-    return new DrivingDeltas(distanceAdjust, steeringAdjust);
+    return new DrivingDeltas(-distanceAdjust, steeringAdjust);
   }
 
-  public boolean hasValidTargets() {
-    return hasValidTargets;
+  /*
+   * Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
+   */
+  public double getVerticalTargetOffset() {
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0.0);
   }
 
-  public double getKpAim() {
-    return this.kpAim;
+  /*
+   * Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
+   */
+  public double getHorizontalTargetOffset() {
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
   }
 
-  public void setKpAim(double kpAim) {
-    this.kpAim = kpAim;
+  /*
+   * Whether the limelight has any valid targets (0 or 1)
+   */
+  public boolean hasValidTarget() {
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0) > 0;
   }
 
-  public double getKpDistance() {
-    return this.kpDistance;
-  }
-
-  public void setKpDistance(double kpDistance) {
-    this.kpDistance = kpDistance;
+  /*
+   * Target Area (0% of image to 100% of image)
+   */
+  public double getTargetArea() {
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0.0);
   }
 }
