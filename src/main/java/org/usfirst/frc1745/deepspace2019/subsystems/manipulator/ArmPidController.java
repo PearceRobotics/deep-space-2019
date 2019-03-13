@@ -16,7 +16,6 @@ public class ArmPidController {
 
   private CANSparkMax turnMotor;
   private CANPIDController turnController;
-  private CANEncoder turnEncoder;
 
   //TODO: Make final once tuned
   private static double kP = 0.5;
@@ -26,7 +25,6 @@ public class ArmPidController {
 
   public ArmPidController(CANSparkMax turnMotor) {
     this.turnMotor = turnMotor;
-    this.turnEncoder = turnMotor.getEncoder();
     this.turnController = turnMotor.getPIDController();
     this.turnController.setP(kP);
     this.turnController.setI(kI);

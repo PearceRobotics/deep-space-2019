@@ -47,12 +47,10 @@ public class Manipulator extends Subsystem {
 
   public void deployArm() {
     this.armPidController.deploy();
-    System.out.println(armController.getEncoder().getPosition());
   }
 
   public void retractArm() {
     this.armPidController.retract();
-    System.out.println(armController.getEncoder().getPosition());
   }
 
   public void spinHatch(double power) {
@@ -65,7 +63,5 @@ public class Manipulator extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
   }
 }
