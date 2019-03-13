@@ -20,7 +20,7 @@ public class ArmPidController {
   //TODO: Make final once tuned
   private static double kP = 0.5;
   private static double kI = 0.0;
-  private static double kD = 0.0;
+  private final double kD = 0.0;
   private static double kF = 0.0;
 
   public ArmPidController(CANSparkMax turnMotor) {
