@@ -8,7 +8,6 @@
 package org.usfirst.frc1745.deepspace2019.subsystems.manipulator;
 
 import com.revrobotics.CANPIDController;
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 
@@ -17,11 +16,10 @@ public class ArmPidController {
   private CANSparkMax turnMotor;
   private CANPIDController turnController;
 
-  //TODO: Make final once tuned
-  private static double kP = 0.5;
-  private static double kI = 0.0;
-  private static double kD = 0.0;
-  private static double kF = 0.0;
+  private final double kP = 0.5;
+  private final double kI = 0.0;
+  private final double kD = 0.0;
+  private final double kF = 0.0;
 
   public ArmPidController(CANSparkMax turnMotor) {
     this.turnMotor = turnMotor;
@@ -41,36 +39,4 @@ public class ArmPidController {
   public void retract() {
     turnController.setReference(-50, ControlType.kPosition);
   }
-
-  public static double getKP() {
-    return kP;
-  }
-
-  public static void setKp(double newKP) {
-    kP = newKP;
-  }
-
-  public static double getKI() {
-    return kI;
-  }
-
-  public static void setKI(double newKI) {
-    kI = newKI;
-  }
-
-  public static double getKD() {
-    return kD;
-  }
-
-  public static void setKD(double newKD) {
-    kD = newKD;
-  }
-
-  public static double getKF() {
-    return kF;
-  }
-
-  public static void setKF(double newKF) {
-    kF = newKF;
-  } 
 }
