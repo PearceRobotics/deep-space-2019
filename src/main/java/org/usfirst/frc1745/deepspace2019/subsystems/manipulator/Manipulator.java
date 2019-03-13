@@ -38,7 +38,7 @@ public class Manipulator extends Subsystem {
     this.armController.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 5);
     this.armController.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 5);
     this.armController.enableVoltageCompensation(12.0);
-    this.armPidController = new ArmPidController(armController.getPIDController());
+    this.armPidController = new ArmPidController(armController);
   }
 
   public void actuate() {
@@ -46,13 +46,13 @@ public class Manipulator extends Subsystem {
   }
 
   public void deployArm() {
-    resetArm();
     this.armPidController.deploy();
+    System.out.println(armController.getEncoder().getPosition());
   }
 
   public void retractArm() {
-    resetArm();
     this.armPidController.retract();
+    System.out.println(armController.getEncoder().getPosition());
   }
 
   public void spinHatch(double power) {
@@ -61,10 +61,6 @@ public class Manipulator extends Subsystem {
 
   public void runArm(double power) {
     this.armController.set(power);
-  }
-
-  private void resetArm(){
-    this.armController.setEncPosition(0);
   }
 
   @Override

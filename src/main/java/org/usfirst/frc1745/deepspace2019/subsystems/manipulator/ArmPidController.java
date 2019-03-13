@@ -8,33 +8,40 @@
 package org.usfirst.frc1745.deepspace2019.subsystems.manipulator;
 
 import com.revrobotics.CANPIDController;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 
 public class ArmPidController {
 
+  private CANSparkMax turnMotor;
   private CANPIDController turnController;
+  private CANEncoder turnEncoder;
 
   //TODO: Make final once tuned
-  private static double kP = 0.1;
-  private static double kI = 0.0001;
-  private static double kD = 1.0;
+  private static double kP = 0.5;
+  private static double kI = 0.0;
+  private static double kD = 0.0;
   private static double kF = 0.0;
 
-  public ArmPidController(CANPIDController turnController) {
-    this.turnController = turnController;
+  public ArmPidController(CANSparkMax turnMotor) {
+    this.turnMotor = turnMotor;
+    this.turnEncoder = turnMotor.getEncoder();
+    this.turnController = turnMotor.getPIDController();
     this.turnController.setP(kP);
     this.turnController.setI(kI);
     this.turnController.setD(kD);
     this.turnController.setFF(kF);
     this.turnController.setOutputRange(-1, 1);
+    this.turnMotor.setEncPosition(0);
   }
 
   public void deploy() {
-    turnController.setReference(1, ControlType.kPosition);
+    turnController.setReference(0, ControlType.kPosition);
   }
 
   public void retract() {
-    turnController.setReference(-1, ControlType.kPosition);
+    turnController.setReference(-50, ControlType.kPosition);
   }
 
   public static double getKP() {
