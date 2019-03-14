@@ -33,6 +33,8 @@ public class Drive {
     this.rightGearbox = new Gearbox(new CANSparkMax(RIGHT_BACK_CAN_ID, DRIVE_MOTOR_TYPE), 
                                     new CANSparkMax(RIGHT_MIDDLE_CAN_ID, DRIVE_MOTOR_TYPE), 
                                     new CANSparkMax(RIGHT_FRONT_CAN_ID, DRIVE_MOTOR_TYPE));
+    this.leftGearbox.setRampRate(1);
+    this.rightGearbox.setRampRate(1);
   }
 
   public void setLeftSpeed(double speed) {
@@ -47,4 +49,9 @@ public class Drive {
     this.setLeftSpeed(-(staightSpeed - turnModifer));
     this.setRightSpeed(staightSpeed + turnModifer);
   }
+
+  public void arcadeDrive(DrivingDeltas drivingDeltas) {
+    arcadeDrive(drivingDeltas.getForwardPower(), drivingDeltas.getSteeringPower());
+  }
+
 }

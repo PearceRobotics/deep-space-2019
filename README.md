@@ -1,6 +1,5 @@
 # deep-space-2019
 Source code for the 2019 FRC season - Deep Space
-
 [![Build Status](https://travis-ci.org/PearceRobotics/deep-space-2019.svg?branch=master)](https://travis-ci.org/PearceRobotics/deep-space-2019)
 
 ### Getting Started
@@ -19,3 +18,5 @@ _Note: *nix users may have to `chmod +x gradlew` to give the executable the righ
 - ```./gradlew riolog``` will display the RoboRIO console output on your computer (run with `-Pfakeds` if you don't have a driverstation connected).
 
 
+### Controls
+![controller diagram](images/controller-diagram.png)
