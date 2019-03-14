@@ -18,6 +18,7 @@ public class Controls {
     private final int B_BUTTON_ID = 2;
     private final int Y_BUTTON_ID = 1;
     private final int A_BUTTON_ID = 4;
+    private final int X_BUTTON_ID = 3;
 
     private Joystick joystick;
 
@@ -35,6 +36,10 @@ public class Controls {
 
     public JoystickButton getAJoystickButton(){
         return new JoystickButton(joystick, A_BUTTON_ID);
+    }
+
+    public JoystickButton getXJoystickButton(){
+        return new JoystickButton(joystick, X_BUTTON_ID);
     }
 
     public double getRightX(double deadzone) {
