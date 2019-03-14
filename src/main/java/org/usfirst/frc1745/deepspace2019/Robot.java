@@ -117,6 +117,18 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        DrivingDeltas calculatedDeltas = vision.targetDelta();
+       
+        if (limelight.hasValidTarget()){
+            drive.arcadeDrive(calculatedDeltas);
+        } else {
+            drive.arcadeDrive(.1,0);
+        }
+        if (calculatedDeltas.getForwardPower() < .05 && calculatedDeltas.getSteeringPower() < .05){
+            drive.arcadeDrive(.05,0);
+            manipulator.actuate();
+            manipulator.spinHatch(.3);
+        }
     }
 
     @Override
