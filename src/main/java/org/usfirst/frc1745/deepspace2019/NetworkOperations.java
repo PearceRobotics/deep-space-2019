@@ -17,17 +17,16 @@ import edu.wpi.first.wpilibj.Preferences;
  */
 public class NetworkOperations {
     private static Preferences preferences;
-    private static NetworkTableInstance networkTable;
+    private static NetworkTableInstance networkTable = NetworkTableInstance.getDefault();
 
     public NetworkOperations() {
-        networkTable = networkTable.getDefault();
         networkTable.startClientTeam(1745);
         networkTable.startDSClient();
         preferences = Preferences.getInstance();
     }
 
     public static NetworkTable getNetworkTable(String networkTableName) {
-        return networkTable.getDefault().getTable(networkTableName);
+        return networkTable.getTable(networkTableName);
     }
 
     public static double getPreferencesDouble(String label) {

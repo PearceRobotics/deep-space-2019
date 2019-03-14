@@ -53,6 +53,10 @@ public class Gearbox extends Subsystem {
     this.frontController.set(rate);
   }
 
+  public void setRampRate(double rate) {
+    this.frontController.setOpenLoopRampRate(rate);
+  }
+
   public CANSparkMax getBackController() {
     return this.backController;
   }
