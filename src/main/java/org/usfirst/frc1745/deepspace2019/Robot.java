@@ -154,13 +154,7 @@ public class Robot extends TimedRobot {
             manipulator.spinHatch(0);
         }
         
-        if(controls.getLeftTrigger()) {
-            manipulator.retractArm();
-        }
 
-        if(controls.getRightTrigger()){
-            manipulator.deployArm();
-        }
     }
 
 }
