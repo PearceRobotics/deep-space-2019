@@ -153,14 +153,6 @@ public class Robot extends TimedRobot {
         }
         
         //manipulator.runArm(controls.getRightY(0.1));
-
-        if(controls.getLeftTrigger()) {
-            manipulator.retractArm();
-        }
-
-        if(controls.getRightTrigger()){
-            manipulator.deployArm();
-        }
     }
 
     private void getSetLimelightValues(double[] calculatedDeltas, NetworkTable limelightNetworkTable){

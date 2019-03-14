@@ -38,7 +38,7 @@ public class Manipulator extends Subsystem {
     this.armController.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 5);
     this.armController.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 5);
     this.armController.enableVoltageCompensation(12.0);
-    this.armPidController = new ArmPidController(armController.getPIDController());
+    this.armPidController = new ArmPidController(armController);
   }
 
   public void actuate() {
@@ -46,12 +46,10 @@ public class Manipulator extends Subsystem {
   }
 
   public void deployArm() {
-    resetArm();
     this.armPidController.deploy();
   }
 
   public void retractArm() {
-    resetArm();
     this.armPidController.retract();
   }
 
@@ -63,13 +61,7 @@ public class Manipulator extends Subsystem {
     this.armController.set(power);
   }
 
-  private void resetArm(){
-    this.armController.setEncPosition(0);
-  }
-
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
   }
 }
