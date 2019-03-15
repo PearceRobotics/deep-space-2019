@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc1745.deepspace2019.commands.ArmDeployCommand;
 import org.usfirst.frc1745.deepspace2019.subsystems.LedPWMController;
 import org.usfirst.frc1745.deepspace2019.subsystems.drive.Drive;
 import org.usfirst.frc1745.deepspace2019.subsystems.drive.DrivingDeltas;
@@ -62,6 +63,7 @@ public class Robot extends TimedRobot {
     private boolean manualAutoControl = false;
     private boolean isDeployed = false;
     private boolean hadTarget = false;
+    private ArmDeployCommand armDeployCommand;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -91,6 +93,7 @@ public class Robot extends TimedRobot {
         this.ledPWMController = new LedPWMController(LED_PWM_PORT);
         this.limelight = new Limelight();
         this.vision = new Vision(limelight, LEFT_ULTRASONIC_PORT, RIGHT_ULTRASONIC_PORT, ledPWMController);
+        this.armDeployCommand = new ArmDeployCommand(manipulator);
         Compressor compressor = new Compressor();
         compressor.clearAllPCMStickyFaults();
     }
@@ -114,6 +117,7 @@ public class Robot extends TimedRobot {
         autonomousCommand = chooser.getSelected();
         isDeployed = false;
         hadTarget = false;
+        manipulator.resetEncPosition();
         // schedule the autonomous command (example)
         if (autonomousCommand != null)
             autonomousCommand.start();
@@ -126,10 +130,17 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         DrivingDeltas calculatedDeltas = vision.targetDelta();
+        //armDeployCommand.start();
+
         if(!isExtended) {
-            manipulator.deployArm();
+            manipulator.resetEncPosition();
             manipulator.spinHatch(.3);
-            Timer.delay(.5);
+            double timestamp = Timer.getFPGATimestamp();
+            while(timestamp + 1 >  Timer.getFPGATimestamp()) {
+                //armDeployCommand.start();
+                manipulator.retractArm();
+               
+            }
             manipulator.spinHatch(0);
             isExtended = true;
         }
