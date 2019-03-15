@@ -57,6 +57,8 @@ public class Robot extends TimedRobot {
     private final int LEFT_ULTRASONIC_PORT = 0;
     private final int RIGHT_ULTRASONIC_PORT = 1;
     private final double DEADZONE = 0.05;
+    private boolean isExtended = false;
+    private boolean manualAutoControl = false;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -119,8 +121,15 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         DrivingDeltas calculatedDeltas = vision.targetDelta();
+        if(!isExtended) {
+            manipulator.deployArm();
+            isExtended = true;
+        }
 
         if(controls.getAButton()) {
+            manualAutoControl = true;
+        }
+        if(manualAutoControl) {
             //manual control
             // Go to the target
             if (controls.getBButton()) {
@@ -187,8 +196,6 @@ public class Robot extends TimedRobot {
         } else {
             manipulator.spinHatch(0);
         }
-        
-
     }
 
 }
