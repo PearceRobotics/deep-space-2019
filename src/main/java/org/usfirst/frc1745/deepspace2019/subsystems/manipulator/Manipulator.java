@@ -46,6 +46,7 @@ public class Manipulator extends Subsystem {
   }
 
   public void deployArm() {
+    this.armController.setEncPosition(0);
     this.armPidController.deploy();
   }
 

@@ -58,7 +58,10 @@ public class Robot extends TimedRobot {
     private final int RIGHT_ULTRASONIC_PORT = 1;
     private final double DEADZONE = 0.05;
     private boolean isExtended = false;
+
     private boolean manualAutoControl = false;
+    private boolean isDeployed = false;
+    private boolean hadTarget = false;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -109,6 +112,8 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         autonomousCommand = chooser.getSelected();
+        isDeployed = false;
+        hadTarget = false;
         // schedule the autonomous command (example)
         if (autonomousCommand != null)
             autonomousCommand.start();
@@ -123,6 +128,9 @@ public class Robot extends TimedRobot {
         DrivingDeltas calculatedDeltas = vision.targetDelta();
         if(!isExtended) {
             manipulator.deployArm();
+            manipulator.spinHatch(.3);
+            Timer.delay(.5);
+            manipulator.spinHatch(0);
             isExtended = true;
         }
 
@@ -139,26 +147,30 @@ public class Robot extends TimedRobot {
             }            
             //Deploy Code
             if (controls.getLeftBumper()) {
-                manipulator.spinHatch(-.3);
-            } else if(controls.getRightBumper()) {
                 manipulator.spinHatch(.3);
+            } else if(controls.getRightBumper()) {
+                manipulator.spinHatch(-.3);
             } else {
                 manipulator.spinHatch(0);
             }
-        } else if (calculatedDeltas.getForwardPower() < .05 && calculatedDeltas.getSteeringPower() < .05){
+        } else if (Math.abs(calculatedDeltas.getForwardPower()) < .01 && Math.abs(calculatedDeltas.getSteeringPower()) < .01){
             double timestamp = Timer.getFPGATimestamp();
-            while(timestamp + 2 >  Timer.getFPGATimestamp()) {
-                drive.arcadeDrive(.05,0);
+            //while(timestamp + 2 >  Timer.getFPGATimestamp()) {
+                drive.arcadeDrive(-.07,0);
+            //}
+            if (!isDeployed && hadTarget){
+                manipulator.actuate();
+                manipulator.spinHatch(-.3);
+                Timer.delay(1);
+                manipulator.actuate();
+                manipulator.spinHatch(0);
+                isDeployed = true;
             }
-            manipulator.actuate();
-            manipulator.spinHatch(.3);
-            Timer.delay(.33);
-            manipulator.actuate();
-            manipulator.spinHatch(0);
         } else if (limelight.hasValidTarget()){
-            drive.arcadeDrive(calculatedDeltas);
+            drive.arcadeDrive(calculatedDeltas.getForwardPower(), calculatedDeltas.getSteeringPower());
+            hadTarget = true;
         } else {
-            drive.arcadeDrive(.1,0);
+            drive.arcadeDrive(-.1,0);
         }
     }
 
@@ -190,9 +202,9 @@ public class Robot extends TimedRobot {
 
         //Deploy Code
         if (controls.getLeftBumper()) {
-            manipulator.spinHatch(-.3);
-        } else if(controls.getRightBumper()) {
             manipulator.spinHatch(.3);
+        } else if(controls.getRightBumper()) {
+            manipulator.spinHatch(-.3);
         } else {
             manipulator.spinHatch(0);
         }
