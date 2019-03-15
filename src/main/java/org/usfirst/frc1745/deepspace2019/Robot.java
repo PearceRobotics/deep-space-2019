@@ -13,6 +13,7 @@ package org.usfirst.frc1745.deepspace2019;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -118,16 +119,37 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         DrivingDeltas calculatedDeltas = vision.targetDelta();
-       
-        if (limelight.hasValidTarget()){
+
+        if(controls.getAButton()) {
+            //manual control
+            // Go to the target
+            if (controls.getBButton()) {
+                drive.arcadeDrive(calculatedDeltas);
+            } else {
+                drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE) * 0.75);
+            }            
+            //Deploy Code
+            if (controls.getLeftBumper()) {
+                manipulator.spinHatch(-.3);
+            } else if(controls.getRightBumper()) {
+                manipulator.spinHatch(.3);
+            } else {
+                manipulator.spinHatch(0);
+            }
+        } else if (calculatedDeltas.getForwardPower() < .05 && calculatedDeltas.getSteeringPower() < .05){
+            double timestamp = Timer.getFPGATimestamp();
+            while(timestamp + 2 >  Timer.getFPGATimestamp()) {
+                drive.arcadeDrive(.05,0);
+            }
+            manipulator.actuate();
+            manipulator.spinHatch(.3);
+            Timer.delay(.33);
+            manipulator.actuate();
+            manipulator.spinHatch(0);
+        } else if (limelight.hasValidTarget()){
             drive.arcadeDrive(calculatedDeltas);
         } else {
             drive.arcadeDrive(.1,0);
-        }
-        if (calculatedDeltas.getForwardPower() < .05 && calculatedDeltas.getSteeringPower() < .05){
-            drive.arcadeDrive(.05,0);
-            manipulator.actuate();
-            manipulator.spinHatch(.3);
         }
     }
 
@@ -152,7 +174,7 @@ public class Robot extends TimedRobot {
 
         // Go to the target
         if (controls.getBButton()) {
-            drive.arcadeDrive(calculatedDeltas.getForwardPower(), calculatedDeltas.getSteeringPower());
+            drive.arcadeDrive(calculatedDeltas);
         } else {
             drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE) * 0.75);
         }
