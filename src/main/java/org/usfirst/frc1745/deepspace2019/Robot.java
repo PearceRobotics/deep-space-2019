@@ -130,6 +130,7 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         DrivingDeltas calculatedDeltas = vision.targetDelta();
+        System.out.println(limelight.getTargetArea());
         //armDeployCommand.start();
 
         if(!isExtended) {
@@ -145,7 +146,7 @@ public class Robot extends TimedRobot {
             isExtended = true;
         }
 
-        if(controls.getAButton()) {
+        if(controls.getXButton()) {
             manualAutoControl = true;
         }
         if(manualAutoControl) {
@@ -164,11 +165,12 @@ public class Robot extends TimedRobot {
             } else {
                 manipulator.spinHatch(0);
             }
-        } else if (Math.abs(calculatedDeltas.getForwardPower()) < .01 && Math.abs(calculatedDeltas.getSteeringPower()) < .01){
+        } else {
+            if (limelight.getTargetArea() > 17.0){
             double timestamp = Timer.getFPGATimestamp();
-            //while(timestamp + 2 >  Timer.getFPGATimestamp()) {
-                drive.arcadeDrive(-.07,0);
-            //}
+            while(timestamp + 2 >  Timer.getFPGATimestamp()) {
+                drive.arcadeDrive(-.08,0);
+            }
             if (!isDeployed && hadTarget){
                 manipulator.actuate();
                 manipulator.spinHatch(-.3);
@@ -183,6 +185,7 @@ public class Robot extends TimedRobot {
         } else {
             drive.arcadeDrive(-.1,0);
         }
+    }
     }
 
     @Override

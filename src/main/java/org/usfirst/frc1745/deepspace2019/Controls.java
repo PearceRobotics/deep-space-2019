@@ -20,6 +20,7 @@ public class Controls {
     private final int B_BUTTON_ID = 2;
     private final int Y_BUTTON_ID = 1;
     private final int A_BUTTON_ID = 4;
+    private final int X_BUTTON_ID = 3;
 
     public Controls(Joystick joystick) {
         this.joystick = joystick;
@@ -31,6 +32,10 @@ public class Controls {
 
     public boolean getAButton() {
         return joystick.getRawButton(A_BUTTON_ID);
+    }
+
+    public boolean getXButton() {
+        return joystick.getRawButton(X_BUTTON_ID);
     }
 
     public JoystickButton getYJoystickButton(){

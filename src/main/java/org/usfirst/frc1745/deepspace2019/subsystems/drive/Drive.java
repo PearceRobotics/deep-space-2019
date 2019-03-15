@@ -40,8 +40,8 @@ public class Drive extends Subsystem {
     this.rightGearbox = new Gearbox(new CANSparkMax(RIGHT_BACK_CAN_ID, DRIVE_MOTOR_TYPE), 
                                     new CANSparkMax(RIGHT_MIDDLE_CAN_ID, DRIVE_MOTOR_TYPE), 
                                     new CANSparkMax(RIGHT_FRONT_CAN_ID, DRIVE_MOTOR_TYPE));
-    this.leftGearbox.setRampRate(1);
-    this.rightGearbox.setRampRate(1);
+    this.leftGearbox.setRampRate(.5);
+    this.rightGearbox.setRampRate(.5);
   }
 
   public void setLeftSpeed(double speed) {
