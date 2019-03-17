@@ -140,26 +140,12 @@ public class Robot extends TimedRobot {
             manipulator.deployArm();
             isExtended = true;
         }
-
+        
         if (controls.getXButton()) {
             manualAutoControl = true;
         }
         if (manualAutoControl) {
-            // manual control
-            // Go to the target
-            if (controls.getBButton()) {
-                drive.arcadeDrive(calculatedDeltas);
-            } else {
-                drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE) * 0.75);
-            }
-            // Deploy Code
-            if (controls.getLeftBumper()) {
-                manipulator.spinHatch(INTAKE_SPEED);
-            } else if (controls.getRightBumper()) {
-                manipulator.spinHatch(OUTTAKE_SPEED);
-            } else {
-                manipulator.spinHatch(0);
-            }
+            manualControl(calculatedDeltas);
         } else {
             if (limelight.getTargetArea() > 15.0) {
                 double timestamp = Timer.getFPGATimestamp();
@@ -191,7 +177,6 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
         if (autonomousCommand != null)
             autonomousCommand.cancel();
-
     }
 
     /**
@@ -202,9 +187,13 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
         DrivingDeltas calculatedDeltas = vision.targetDelta();
 
+        manualControl(calculatedDeltas);
+    }
+
+    private void manualControl(DrivingDeltas drivingDeltas) {
         // Go to the target
         if (controls.getBButton()) {
-            drive.arcadeDrive(calculatedDeltas);
+            drive.arcadeDrive(drivingDeltas);
         } else {
             drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE) * 0.75);
         }
