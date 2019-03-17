@@ -137,7 +137,7 @@ public class Robot extends TimedRobot {
         DrivingDeltas calculatedDeltas = vision.targetDelta();
 
         if (!isExtended) {
-            manipulator.retractArm();
+            manipulator.deployArm();
             isExtended = true;
         }
 
