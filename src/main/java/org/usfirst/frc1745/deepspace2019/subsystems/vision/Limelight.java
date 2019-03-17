@@ -7,7 +7,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight {
   private final double KpAIM = 0.005;
-  private final double KpDISTANCE = 0.045;
+  private final double KpDISTANCE = 0.025;
   private final double DEADBAND_DEGREES = 0;
 
   public DrivingDeltas calculateDeltas() {

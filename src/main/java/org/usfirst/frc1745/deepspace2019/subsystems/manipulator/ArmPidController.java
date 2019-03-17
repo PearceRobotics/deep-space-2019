@@ -32,11 +32,11 @@ public class ArmPidController {
     this.turnMotor.setEncPosition(0);
   }
 
-  public void deploy() {
+  public void retract() {
     turnController.setReference(0, ControlType.kPosition);
   }
 
-  public void retract() {
+  public void deploy() {
     turnController.setReference(-50, ControlType.kPosition);
   }
 }

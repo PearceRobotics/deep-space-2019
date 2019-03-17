@@ -23,8 +23,8 @@ public class Manipulator extends Subsystem {
   private final int DOUBLESOLENOID_FORWARD_PORT_ID = 0;
   private final int DOUBLESOLENOID_REVERSE_PORT_ID = 1;
 
-  private final int HATCH_SPINNER_CAN_ID = 10;
-  private final int ARM_CAN_ID = 11;
+  private final int HATCH_SPINNER_CAN_ID = 11;
+  private final int ARM_CAN_ID = 10;
 
   private DoubleSolenoidActuator doubleSolenoid;
   private CANSparkMax hatchSpinnerController;
@@ -47,6 +47,10 @@ public class Manipulator extends Subsystem {
 
   public void deployArm() {
     this.armPidController.deploy();
+  }
+
+  public void resetEncPosition() {
+    this.armController.setEncPosition(0);
   }
 
   public void retractArm() {

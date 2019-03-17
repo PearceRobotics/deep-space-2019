@@ -20,3 +20,6 @@ _Note: *nix users may have to `chmod +x gradlew` to give the executable the righ
 
 ### Controls
 ![controller diagram](images/controller-diagram.png)
+
+### Hatch Sandstorm/Auto Preload Steps
+![Hatch Sandstorm/Auto Preload Steps](images/hatch-auton-preload.png)
