@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc1745.deepspace2019.commands.ArmDeployCommand;
 import org.usfirst.frc1745.deepspace2019.subsystems.LedPWMController;
 import org.usfirst.frc1745.deepspace2019.subsystems.drive.Drive;
 import org.usfirst.frc1745.deepspace2019.subsystems.drive.DrivingDeltas;
@@ -52,19 +51,22 @@ public class Robot extends TimedRobot {
     private Limelight limelight;
     private LedPWMController ledPWMController;
     private Vision vision;
+
+    //Constants
     private final int JOYSTICK_PORT = 0;
     private final int LED_PWM_PORT = 0;
     private final int LEFT_ULTRASONIC_PORT = 0;
     private final int RIGHT_ULTRASONIC_PORT = 1;
+
     private final double DEADZONE = 0.05;
     private final double INTAKE_SPEED = 0.5;
     private final double OUTTAKE_SPEED = -0.5;
-    private boolean isExtended = false;
 
+    //Auton Vars
+    private boolean isExtended = false;
     private boolean manualAutoControl = false;
     private boolean isDeployed = false;
     private boolean hadTarget = false;
-    private ArmDeployCommand armDeployCommand;
 
     /**
      * This function is run when the robot is first started up and should be used
@@ -94,7 +96,6 @@ public class Robot extends TimedRobot {
         this.ledPWMController = new LedPWMController(LED_PWM_PORT);
         this.limelight = new Limelight();
         this.vision = new Vision(limelight, LEFT_ULTRASONIC_PORT, RIGHT_ULTRASONIC_PORT, ledPWMController);
-        this.armDeployCommand = new ArmDeployCommand(manipulator);
         Compressor compressor = new Compressor();
         compressor.clearAllPCMStickyFaults();
     }
@@ -116,9 +117,12 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         autonomousCommand = chooser.getSelected();
+        isExtended = false;
+        manualAutoControl = false;
         isDeployed = false;
         hadTarget = false;
         manipulator.resetEncPosition();
+
         // schedule the autonomous command (example)
         if (autonomousCommand != null)
             autonomousCommand.start();
@@ -131,19 +135,9 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         DrivingDeltas calculatedDeltas = vision.targetDelta();
-        System.out.println(limelight.getTargetArea());
-        // armDeployCommand.start();
 
         if (!isExtended) {
-            manipulator.resetEncPosition();
-            double timestamp = Timer.getFPGATimestamp();
-            /*while (timestamp + 1 > Timer.getFPGATimestamp()) {
-                manipulator.spinHatch(INTAKE_SPEED);
-            }*/
-            //while(timestamp + 1 > Timer.getFPGATimestamp()) {
-                manipulator.retractArm();
-            //}
-            manipulator.spinHatch(0);
+            manipulator.retractArm();
             isExtended = true;
         }
 
@@ -158,14 +152,6 @@ public class Robot extends TimedRobot {
             } else {
                 drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE) * 0.75);
             }
-            // Arm Code
-            // if (controls.getLeftTrigger()) {
-            //     manipulator.runArm(.2);
-            // } else if (controls.getRightTrigger()) {
-            //     manipulator.runArm(-.2);
-            // } else {
-            //     manipulator.runArm(0);
-            // }
             // Deploy Code
             if (controls.getLeftBumper()) {
                 manipulator.spinHatch(INTAKE_SPEED);
@@ -215,7 +201,6 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         DrivingDeltas calculatedDeltas = vision.targetDelta();
-        System.out.println(limelight.getTargetArea());
 
         // Go to the target
         if (controls.getBButton()) {
@@ -223,13 +208,6 @@ public class Robot extends TimedRobot {
         } else {
             drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE) * 0.75);
         }
-
-        // // Arm Code
-        // if (controls.getLeftTrigger()) {
-        //     manipulator.runArm(.2);
-        // } else if (controls.getRightTrigger()) {
-        //     manipulator.runArm(-.2);
-        // }
 
         // Deploy Code
         if (controls.getLeftBumper()) {
@@ -240,5 +218,4 @@ public class Robot extends TimedRobot {
             manipulator.spinHatch(0);
         }
     }
-
 }
