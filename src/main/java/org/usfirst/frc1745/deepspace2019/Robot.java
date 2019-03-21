@@ -147,7 +147,7 @@ public class Robot extends TimedRobot {
         if (manualAutoControl) {
             manualControl(calculatedDeltas);
         } else {
-            if (limelight.getTargetArea() > 15.0) {
+            if (limelight.getTargetArea() > 15.0 && !isDeployed) {
                 double timestamp = Timer.getFPGATimestamp();
                 while (timestamp + 2 > Timer.getFPGATimestamp()) {
                     drive.arcadeDrive(-.08, 0);
@@ -160,11 +160,16 @@ public class Robot extends TimedRobot {
                     manipulator.spinHatch(0);
                     isDeployed = true;
                 }
+            } else if(isDeployed) {
+                double timestamp = Timer.getFPGATimestamp();
+                while (timestamp + 2 > Timer.getFPGATimestamp()) {
+                    drive.arcadeDrive(.01, 0);
+                }
             } else if (limelight.hasValidTarget()) {
                 drive.arcadeDrive(calculatedDeltas.getForwardPower(), calculatedDeltas.getSteeringPower());
                 hadTarget = true;
             } else {
-                drive.arcadeDrive(-.1, 0);
+                drive.arcadeDrive(-.5, 0);
             }
         }
     }
