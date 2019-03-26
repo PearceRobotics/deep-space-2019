@@ -25,6 +25,10 @@ public class DoubleSolenoidActuator extends Subsystem {
     this.state = DoubleSolenoid.Value.kOff;
   }
 
+  public void off() {
+    this.doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+  }
+
   public void toggle() {
     switch(this.state) {
       case kOff: 

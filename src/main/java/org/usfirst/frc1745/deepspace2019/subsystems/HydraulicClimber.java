@@ -31,27 +31,33 @@ public class HydraulicClimber {
         this.frontDoubleSolenoid = new DoubleSolenoidActuator(new DoubleSolenoid(FRONT_LEFT_DOUBLESOLENOID_FORWARD_PORT_ID, FRONT_RIGHT_DOUBLESOLENOID_REVERSE_PORT_ID));
         this.rearDoubleSolenoid = new DoubleSolenoidActuator(new DoubleSolenoid(BACK_LEFT_DOUBLESOLENOID_FORWARD_PORT_ID, BACK_RIGHT_DOUBLESOLENOID_REVERSE_PORT_ID));
         this.drive = drive;
+        this.rearDoubleSolenoid.off();
+        this.frontDoubleSolenoid.off();
+    }
+
+    public void pushFront(){
+        this.frontDoubleSolenoid.toggle();
+    }
+
+    public void pushBack() {
+        this.rearDoubleSolenoid.toggle();
     }
 
     public void climb() {
         this.frontDoubleSolenoid.toggle();
+        Timer.delay(1);
+
         double timestamp = Timer.getFPGATimestamp();
-        while(timestamp + 1 > Timer.getFPGATimestamp()) {
-            drive.arcadeDrive(-.04, 0);
+        while(timestamp + 2 > Timer.getFPGATimestamp()) {
+            drive.arcadeDrive(-.2, 0);
         }
-        this.rearDoubleSolenoid.toggle();
         this.frontDoubleSolenoid.toggle();
-
-        timestamp = Timer.getFPGATimestamp();
-        while(timestamp + 1 > Timer.getFPGATimestamp()) {
-            drive.arcadeDrive(-.04, 0);
-        }
-        
         this.rearDoubleSolenoid.toggle();
-
         timestamp = Timer.getFPGATimestamp();
-        while(timestamp + 1 > Timer.getFPGATimestamp()) {
-            drive.arcadeDrive(-.04, 0);
+        while(timestamp + 2 > Timer.getFPGATimestamp()) {
+            drive.arcadeDrive(-.2, 0);
         }
+        this.rearDoubleSolenoid.toggle();
+        Timer.delay(1);
     }
 }

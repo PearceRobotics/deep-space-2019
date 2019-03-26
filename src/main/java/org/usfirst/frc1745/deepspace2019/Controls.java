@@ -21,7 +21,8 @@ public class Controls {
     private final int Y_BUTTON_ID = 4;
     private final int A_BUTTON_ID = 1;
     private final int X_BUTTON_ID = 3;
-
+    private final int RIGHT_JOYSTICK_BUTTON_ID = 10;
+    private final int LEFT_JOYSTICK_BUTTON_ID = 9;
     public Controls(Joystick joystick) {
         this.joystick = joystick;
     }
@@ -44,6 +45,14 @@ public class Controls {
 
     public JoystickButton getAJoystickButton(){
         return new JoystickButton(joystick, A_BUTTON_ID);
+    }
+
+    public JoystickButton getRightJoystickButton(){
+        return new JoystickButton(joystick, RIGHT_JOYSTICK_BUTTON_ID);
+    }
+
+    public JoystickButton getLeftJoystickButton(){
+        return new JoystickButton(joystick, LEFT_JOYSTICK_BUTTON_ID);
     }
 
     public double getRightX(double deadzone) {
