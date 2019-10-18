@@ -210,7 +210,7 @@ public class Robot extends TimedRobot {
         if (controls.getBButton()) {
             drive.arcadeDrive(drivingDeltas);
         } else {
-            drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE) * 0.85);
+            drive.arcadeDrive(controls.getLeftY(DEADZONE) * .75, controls.getRightX(DEADZONE) * 0.85);
         }
 
         // Deploy Code

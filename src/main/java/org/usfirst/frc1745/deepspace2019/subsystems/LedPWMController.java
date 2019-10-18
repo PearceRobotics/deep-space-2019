@@ -16,9 +16,8 @@ public class LedPWMController {
 
     public enum BlinkinColors {
         LIME(0.73),
-        PARTY(-0.97);
+        PARTY(0.61);
         private double value;
-    
         BlinkinColors(double value) {
             this.value = value;
         }
