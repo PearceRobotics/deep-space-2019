@@ -57,6 +57,10 @@ public class Drive extends Subsystem {
     this.setRightSpeed(staightSpeed + turnModifer);
   }
 
+  public Gearbox getRightGearbox() {
+    return this.rightGearbox;
+  }
+
   public void arcadeDrive(DrivingDeltas drivingDeltas) {
     arcadeDrive(drivingDeltas.getForwardPower(), drivingDeltas.getSteeringPower());
   }

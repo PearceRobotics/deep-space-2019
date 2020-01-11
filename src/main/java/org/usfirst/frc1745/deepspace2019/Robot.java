@@ -195,7 +195,10 @@ public class Robot extends TimedRobot {
         if (controls.getBButton()) {
             drive.arcadeDrive(drivingDeltas);
         } else {
-            drive.arcadeDrive(controls.getLeftY(DEADZONE), controls.getRightX(DEADZONE) * 0.75);
+            //nathan change this
+            drive.arcadeDrive(.75, controls.getRightX(DEADZONE) * 0.75);
+            System.out.println("front motor " + drive.getRightGearbox().getFrontEncoderValue());
+            System.out.println("back motor " + drive.getRightGearbox().getMiddleEncoderValue());
         }
 
         // Deploy Code

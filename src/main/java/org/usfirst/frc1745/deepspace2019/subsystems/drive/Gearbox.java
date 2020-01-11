@@ -69,6 +69,14 @@ public class Gearbox extends Subsystem {
     return this.frontController;
   }
 
+  public double getFrontEncoderValue() {
+    return this.frontController.getEncoder().getVelocity();
+  }
+
+  public double getMiddleEncoderValue() {
+    return this.middleController.getEncoder().getVelocity();
+  }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
